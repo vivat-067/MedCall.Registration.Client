@@ -1,0 +1,354 @@
+
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Medical Assistance Call API",
+    "description": "API для управления вызовами службы медицинской помощи",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/MedicalAssistanceCalls": {
+      "get": {
+        "tags": [
+          "MedicalAssistanceCalls"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "MedicalAssistanceCalls"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicalAssistanceCall"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicalAssistanceCall"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicalAssistanceCall"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/MedicalAssistanceCalls/{id}": {
+      "get": {
+        "tags": [
+          "MedicalAssistanceCalls"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "MedicalAssistanceCalls"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicalAssistanceCall"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicalAssistanceCall"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicalAssistanceCall"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "MedicalAssistanceCalls"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/MedicalAssistanceCalls/search": {
+      "get": {
+        "tags": [
+          "MedicalAssistanceCalls"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "callType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "callDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CallType": {
+        "enum": [0, 1],
+        "type": "integer",
+        "format": "int32"
+      },
+      "MedicalAssistanceCall": {
+        "required": [
+          "addressStreet",
+          "callDate",
+          "callType",
+          "number",
+          "patientName",
+          "paymentType",
+          "receptionTime",
+          "status",
+          "typeOfCall"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "typeOfCall": {
+            "$ref": "#/components/schemas/CallType"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patientName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "addressStreet": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "addressDetails": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactInfo": {
+            "type": "string",
+            "nullable": true
+          },
+          "receptionTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "transferTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "departureTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "arrivalTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "completionTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "workDuration": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "complaints": {
+            "type": "string",
+            "nullable": true
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "diagnosis": {
+            "type": "string",
+            "nullable": true
+          },
+          "result": {
+            "type": "string",
+            "nullable": true
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          },
+          "callType": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "paymentType": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "callDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "insuranceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "customer": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerRepresentative": {
+            "type": "string",
+            "nullable": true
+          },
+          "cost": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "mkadDistance": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "brigadeNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "doctor": {
+            "type": "string",
+            "nullable": true
+          },
+          "paramedic": {
+            "type": "string",
+            "nullable": true
+          },
+          "driver": {
+            "type": "string",
+            "nullable": true
+          },
+          "dispatcher1": {
+            "type": "string",
+            "nullable": true
+          },
+          "dispatcher2": {
+            "type": "string",
+            "nullable": true
+          },
+          "isWaiting": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "MedicalAssistanceCalls"
+    }
+  ]
+}
