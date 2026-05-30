@@ -23,7 +23,8 @@ uses
   mcrMedBrigadeFileService in 'Services\mcrMedBrigadeFileService.pas',
   mcrAppBaseLogClasses in 'Classes\mcrAppBaseLogClasses.pas',
   mcrAppShared in 'Classes\mcrAppShared.pas',
-  mcrBrigadesCallsTimeLineTestData in 'TestData\MedBrigades\mcrBrigadesCallsTimeLineTestData.pas';
+  mcrBrigadesCallsTimeLineTestData in 'TestData\MedBrigades\mcrBrigadesCallsTimeLineTestData.pas',
+  mcrAppVersionInfo in 'Helpers\mcrAppVersionInfo.pas';
 
 {$R *.res}
 

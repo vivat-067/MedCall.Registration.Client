@@ -99,6 +99,7 @@ type
     procedure asRequestCancelExecute(Sender: TObject);
     procedure asRequestCancelUpdate(Sender: TObject);
     procedure gvMedicalBrigadesDblClick(Sender: TObject);
+    procedure SchedulerDblClick(Sender: TObject);
   private
     FisLoaded: Boolean;
     FCurrentBrigadeID: Integer;
@@ -176,6 +177,7 @@ begin
   if tcStatus.Controller.FocusedItem <> nil then
     ApplyStatusFilter(tcStatus.Controller.FocusedItem.Tag);
 end;
+
 
 procedure TfraBrigades.ShowLogEntryEditor;
 begin
@@ -330,16 +332,28 @@ begin
   SortByBrigadeNumber(soDescending);
 end;
 
-
 procedure TfraBrigades.ClearDetailsPanel;
 begin
    Storage1.Clear;
 end;
 
-
 procedure TfraBrigades.FillDetailsPanel(ABrigadeID: Integer);
 begin
   LoadTimeLineTestData(ABrigadeID, Scheduler);
+end;
+
+procedure TfraBrigades.SchedulerDblClick(Sender: TObject);
+begin
+  var prvFocusedEvent: TcxSchedulerEvent:=nil;
+  if TcxScheduler(Sender).CurrentView.HitTest.HitAtEvent then begin
+      prvFocusedEvent:=TcxScheduler(Sender).CurrentView.HitTest.Event;
+      if assigned(prvFocusedEvent) then begin   //'TcxSchedulerControlEvent'
+//        var iFocusedCallID:integer:=xVarToInt(prvFocusedEvent.GetCustomFieldValueByName('CALL_ID'));
+//        if iFocusedCallID>0 then
+//            ShowCallEditor(FocusedCallID);
+           ShowMessage('Форма карточки вызова ' )
+      end;
+  end;
 end;
 
 

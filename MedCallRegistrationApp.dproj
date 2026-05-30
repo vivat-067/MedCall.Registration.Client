@@ -59,10 +59,13 @@
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=vivat;FileDescription=$(MSBuildProjectName);FileVersion=2026.5.0.32767;LegalCopyright=Vit Vatkov;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=Прототип-демо медицинской информационной системы</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <VerInfo_MajorVer>2026</VerInfo_MajorVer>
+        <VerInfo_MinorVer>5</VerInfo_MinorVer>
+        <VerInfo_Build>32767</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -83,8 +86,9 @@
         <Icon_MainIcon>Resources\mcrApp.ico</Icon_MainIcon>
         <VerInfo_MajorVer>2026</VerInfo_MajorVer>
         <VerInfo_MinorVer>5</VerInfo_MinorVer>
-        <VerInfo_Build>28172</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=vivat;FileDescription=$(MSBuildProjectName);FileVersion=2026.5.0.28172;InternalName=;LegalCopyright=Vit Vatkov;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=Пример медицинской информационной системы</VerInfo_Keys>
+        <VerInfo_Build>530</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=vivat;FileDescription=$(MSBuildProjectName);FileVersion=2026.5.0.530;LegalCopyright=Vit Vatkov;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=2026.5.0.530;Comments=ДЕМО-ВЕРСИЯ ПРОТОТИПА МЕДИЦИНСКОЙ ИС;SpecialBuild=</VerInfo_Keys>
+        <VerInfo_Special>true</VerInfo_Special>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -95,6 +99,10 @@
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <VerInfo_MajorVer>2026</VerInfo_MajorVer>
+        <VerInfo_MinorVer>5</VerInfo_MinorVer>
+        <VerInfo_Build>32767</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=vivat;FileDescription=$(MSBuildProjectName);FileVersion=2026.5.0.32767;LegalCopyright=Vit Vatkov;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=Прототип-демо медицинской информационной системы</VerInfo_Keys>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -140,6 +148,7 @@
         <DCCReference Include="Classes\mcrAppBaseLogClasses.pas"/>
         <DCCReference Include="Classes\mcrAppShared.pas"/>
         <DCCReference Include="TestData\MedBrigades\mcrBrigadesCallsTimeLineTestData.pas"/>
+        <DCCReference Include="Helpers\mcrAppVersionInfo.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

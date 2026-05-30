@@ -438,6 +438,7 @@ inherited fraBrigades: TfraBrigades
       ResourceNavigator.Visibility = snvNever
       Storage = Storage1
       TabOrder = 2
+      OnDblClick = SchedulerDblClick
       Splitters = {
         1C020000FB000000180500000001000017020000010000001C02000078000000}
       StoredClientBounds = {0100000001000000570200005F000000}

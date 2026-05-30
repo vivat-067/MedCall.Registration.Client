@@ -6,7 +6,7 @@ uses
   System.Classes,  Vcl.Graphics, Vcl.Forms, Vcl.Controls, Vcl.StdCtrls, Vcl.Dialogs,
   Vcl.Buttons, Vcl.ExtCtrls, Vcl.Imaging.jpeg, cxControls, cxContainer, cxEdit, cxImage, cxLabel,
   cxGraphics,cxFormats, Winapi.Messages, cxDateUtils, Vcl.ComCtrls, Winapi.ShellAPI, Winapi.Windows,
-  cxLookAndFeels, cxLookAndFeelPainters, cxClasses, cxMemo,
+  cxLookAndFeels, cxLookAndFeelPainters, cxClasses, cxMemo, System.SysUtils,
   dxGDIPlusClasses, cxGroupBox, dxCore, System.IOUtils, dxUIAClasses, Vcl.Menus,
   dxCoreGraphics, cxTextEdit, cxMaskEdit, cxButtonEdit, cxButtons;
 
@@ -15,19 +15,20 @@ type
     panMain: TcxGroupBox;
     imgBackground: TcxImage;
     labVersion: TcxLabel;
-    cxLabel2: TcxLabel;
-    cxImage2: TcxImage;
-    cxLabel1: TcxLabel;
-    btnCancel: TcxButton;
+    labAPPName: TcxLabel;
+    imgSpash: TcxImage;
+    labAPPDomain: TcxLabel;
+    btnExit: TcxButton;
     labMessage: TcxLabel;
-    btnAPM: TcxButton;
+    btnLogin: TcxButton;
     cxGroupBox1: TcxGroupBox;
     fldName: TcxButtonEdit;
     cxGroupBox2: TcxGroupBox;
     fldPassword: TcxTextEdit;
-    cxImage3: TcxImage;
-    cxLabel3: TcxLabel;
-    cxLabel4: TcxLabel;
+    imgLogo: TcxImage;
+    labDescription: TcxLabel;
+    labAuthor: TcxLabel;
+    procedure FormCreate(Sender: TObject);
   private
   public
     procedure CreateParams(var Params: TCreateParams); override;
@@ -39,8 +40,10 @@ var
 
 implementation
 
-{$R *.DFM}
+uses
+  mcrAppVersionInfo;
 
+{$R *.DFM}
 
 function ShowModalForm(AForm: TForm): TModalResult;
 begin
@@ -60,5 +63,12 @@ procedure TfrmLogin.CreateParams(var Params: TCreateParams);
 begin
   inherited CreateParams(Params);
 end;
+
+procedure TfrmLogin.FormCreate(Sender: TObject);
+begin
+  labVersion.Caption := Format('Версия: %s (%s)',
+    [TAppVersionInfo.ToShortString, TAppVersionInfo.Build]);
+end;
+
 
 end.

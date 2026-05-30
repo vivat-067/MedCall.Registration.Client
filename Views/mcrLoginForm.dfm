@@ -36,6 +36,7 @@ object frmLogin: TfrmLogin
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
   Position = poScreenCenter
+  OnCreate = FormCreate
   TextHeight = 16
   object panMain: TcxGroupBox
     Left = 0
@@ -52,7 +53,7 @@ object frmLogin: TfrmLogin
     TabOrder = 0
     Height = 500
     Width = 881
-    object cxImage2: TcxImage
+    object imgSpash: TcxImage
       Left = 281
       Top = 0
       TabStop = False
@@ -3296,10 +3297,10 @@ object frmLogin: TfrmLogin
       Width = 281
     end
     object labVersion: TcxLabel
-      Left = 118
-      Top = 443
+      Left = 101
+      Top = 450
       AutoSize = False
-      Caption = #1042#1077#1088#1089#1080#1103' 2026.05'
+      Caption = #1042#1077#1088#1089#1080#1103':'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -3313,9 +3314,9 @@ object frmLogin: TfrmLogin
       Transparent = True
       Height = 16
       Width = 157
-      AnchorX = 197
+      AnchorX = 180
     end
-    object btnCancel: TcxButton
+    object btnExit: TcxButton
       Left = 25
       Top = 367
       Width = 214
@@ -3348,7 +3349,7 @@ object frmLogin: TfrmLogin
       Height = 17
       Width = 211
     end
-    object btnAPM: TcxButton
+    object btnLogin: TcxButton
       Tag = 1
       Left = 25
       Top = 336
@@ -3445,7 +3446,7 @@ object frmLogin: TfrmLogin
         Width = 200
       end
     end
-    object cxImage3: TcxImage
+    object imgLogo: TcxImage
       Left = 167
       Top = 67
       TabStop = False
@@ -3913,7 +3914,7 @@ object frmLogin: TfrmLogin
       Height = 78
       Width = 96
     end
-    object cxLabel1: TcxLabel
+    object labAPPDomain: TcxLabel
       Left = 31
       Top = 100
       AutoSize = False
@@ -3933,11 +3934,11 @@ object frmLogin: TfrmLogin
       Height = 41
       Width = 136
     end
-    object cxLabel3: TcxLabel
-      Left = 489
-      Top = 459
+    object labDescription: TcxLabel
+      Left = 433
+      Top = 450
       AutoSize = False
-      Caption = #1055#1056#1048#1052#1045#1056' - '#1055#1056#1054#1058#1054#1058#1048#1055' '#1044#1045#1052#1054' '#1076#1083#1103' hh.ru '
+      Caption = #1044#1077#1084#1086'-'#1074#1077#1088#1089#1080#1103' '#1055#1056#1054#1058#1054#1058#1048#1055#1040' '#1052#1045#1044#1048#1062#1048#1053#1057#1050#1054#1049' '#1048#1057' '#1076#1083#1103' hh.ru'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindow
@@ -3950,10 +3951,10 @@ object frmLogin: TfrmLogin
       TabOrder = 11
       Transparent = True
       Height = 16
-      Width = 211
-      AnchorX = 595
+      Width = 344
+      AnchorX = 605
     end
-    object cxLabel4: TcxLabel
+    object labAuthor: TcxLabel
       Left = 406
       Top = 471
       AutoSize = False
@@ -3973,7 +3974,7 @@ object frmLogin: TfrmLogin
       Width = 371
       AnchorX = 592
     end
-    object cxLabel2: TcxLabel
+    object labAPPName: TcxLabel
       Left = 25
       Top = 67
       Caption = #1052#1077#1076#1042#1099#1079#1086#1074
