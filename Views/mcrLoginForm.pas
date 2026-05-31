@@ -67,7 +67,7 @@ end;
 procedure TfrmLogin.FormCreate(Sender: TObject);
 begin
   labVersion.Caption := Format('Версия: %s (%s)',
-    [TAppVersionInfo.ToShortString, TAppVersionInfo.Build]);
+    [TAppVersionInfo.ToShortString, TAppVersionInfo.ToAssembleyString]);
 end;
 
 

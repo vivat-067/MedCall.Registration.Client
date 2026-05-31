@@ -1,10 +1,8 @@
 ﻿unit mcrAppVersionInfo;
 
 interface
-
 uses
   System.SysUtils, Winapi.Windows;
-
 type
   TAppVersionInfo = record
   private
@@ -18,14 +16,12 @@ type
     class property Build: string read FBuild;
 
     class function ToString: string; overload; static; inline;
-    class function ToString(const IncludeBuild: Boolean): string; overload; static;
     class function ToShortString: string; static; inline;
+    class function ToAssembleyString: string; static; inline;
   end;
 
 implementation
-
 { TAppVersionInfo }
-
 class constructor TAppVersionInfo.Create;
 var
   VHandle, BufSize: DWORD;
@@ -38,10 +34,8 @@ begin
   FMinor := 0;
   FRelease := 0;
   FBuild := '';
-
   BufSize := GetFileVersionInfoSize(PChar(ParamStr(0)), VHandle);
   if BufSize = 0 then Exit;
-
   GetMem(PBuf, BufSize);
   try
     if GetFileVersionInfo(PChar(ParamStr(0)), 0, BufSize, PBuf) and
@@ -60,10 +54,9 @@ begin
   end;
 end;
 
-
 class function TAppVersionInfo.ToString: string;
 begin
-  Result := ToString(True);
+  Result := ToString;
 end;
 
 class function TAppVersionInfo.ToShortString: string;
@@ -71,15 +64,10 @@ begin
   Result := Format('%d.%d', [FMajor, FMinor]);
 end;
 
-class function TAppVersionInfo.ToString(const IncludeBuild: Boolean): string;
+class function TAppVersionInfo.ToAssembleyString: string;
 begin
-  if IncludeBuild then
-    Result := Format('%d.%d.%d.%s', [FMajor, FMinor, FRelease, FBuild])
-  else
-    Result := Format('%d.%d.%d', [FMajor, FMinor, FRelease]);
+    Result := Format('%d.%s', [FRelease, Build])
 end;
-
-
 
 
 end.
