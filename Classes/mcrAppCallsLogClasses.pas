@@ -14,8 +14,6 @@ type
     FAPIClient: TMedicalCallAPIClient;
     FExceptionLogger: TExceptionLogger;
     FisDataModified: Boolean;
-    FStatusesCount: TDictionary<Integer, Integer>;
-    FItemsList: TObjectList<TMedicalAssistanceCall>;
     function UploadData: Boolean;
   public
     property CallsList: TObjectList<TMedicalAssistanceCall> read FItemsList;
