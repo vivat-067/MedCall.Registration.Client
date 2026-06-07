@@ -27,6 +27,7 @@ type
     ilMainNavigation: TcxImageList;
     ilButtons: TcxImageList;
     ilPriority: TcxImageList;
+    ilNavBar24: TcxImageList;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }

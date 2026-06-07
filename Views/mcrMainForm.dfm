@@ -14,7 +14,6 @@ object frmMain: TfrmMain
   Position = poDesigned
   WindowState = wsMaximized
   OnCreate = FormCreate
-  OnShow = FormShow
   TextHeight = 15
   object tbMain: TdxTileBar
     Left = 0
@@ -76,9 +75,8 @@ object frmMain: TfrmMain
       Text3.Font.Style = []
       Text3.Value = #1047#1072#1103#1074#1082#1080
       Text4.AssignedValues = []
-      OnActivateDetail = tbiCallsLogActivateDetail
-      OnClick = tbiMainTileBarItedClick
-      PopupOptions.PopupControl = ptcCallsRegisterView
+      OnActivateDetail = tbiMainTileBarActivateDetail
+      OnClick = tbiMainTileBarItemClick
     end
     object tbiTasksPrint: TdxTileBarItem
       Tag = 2
@@ -109,11 +107,12 @@ object frmMain: TfrmMain
       Text3.Font.Style = []
       Text3.Value = #1041#1088#1080#1075#1072#1076#1099
       Text4.AssignedValues = []
-      OnActivateDetail = tbiCallsLogActivateDetail
-      OnClick = tbiMainTileBarItedClick
+      OnActivateDetail = tbiMainTileBarActivateDetail
+      OnClick = tbiMainTileBarItemClick
       PopupOptions.BorderColor = clRed
+      PopupOptions.PopupControl = ptcBrigadesView
     end
-    object tbiEmployeeEdit: TdxTileBarItem
+    object tbiBrigadeEdit: TdxTileBarItem
       Tag = 4
       GroupIndex = 0
       IndexInGroup = 3
@@ -123,8 +122,6 @@ object frmMain: TfrmMain
       Text3.AssignedValues = []
       Text4.AssignedValues = []
       Visible = False
-      OnActivateDetail = tbiCallsLogActivateDetail
-      OnClick = tbiMainTileBarItedClick
     end
     object tbiRepordDesigner: TdxTileBarItem
       Tag = 5
@@ -145,7 +142,7 @@ object frmMain: TfrmMain
       Text3.Value = #1050#1086#1085#1089#1090#1088#1091#1082#1090#1086#1088
       Text4.AssignedValues = []
     end
-    object tbiProductEdit: TdxTileBarItem
+    object tbiReportEdit: TdxTileBarItem
       Tag = 6
       GroupIndex = 1
       IndexInGroup = 1
@@ -185,8 +182,6 @@ object frmMain: TfrmMain
       Text3.AssignedValues = []
       Text4.AssignedValues = []
       Visible = False
-      OnActivateDetail = tbiCallsLogActivateDetail
-      OnDeactivatingDetail = tbiCallsLogEditDeactivatingDetail
     end
     object tbiReportsPriceLists: TdxTileBarItem
       Tag = 9
@@ -249,8 +244,29 @@ object frmMain: TfrmMain
       Text4.AssignedValues = []
       PopupOptions.PopupControl = ptcSystemSetup
     end
+    object tbiMAP: TdxTileBarItem
+      Tag = 4
+      Glyph.Align = oaTopLeft
+      Glyph.ImageIndex = 6
+      GroupIndex = 0
+      IndexInGroup = 4
+      Size = tbisLarge
+      Style.GradientBeginColor = clGray
+      Text1.AssignedValues = []
+      Text2.AssignedValues = []
+      Text3.AssignedValues = [avFont]
+      Text3.Font.Charset = DEFAULT_CHARSET
+      Text3.Font.Color = clDefault
+      Text3.Font.Height = -16
+      Text3.Font.Name = 'Segoe UI'
+      Text3.Font.Style = []
+      Text3.Value = #1050#1072#1088#1090#1072
+      Text4.AssignedValues = []
+      OnActivateDetail = tbiMainTileBarActivateDetail
+      OnClick = tbiMainTileBarItemClick
+    end
   end
-  object ptcCallsRegisterView: TdxTileControl
+  object ptcBrigadesView: TdxTileControl
     Left = 23
     Top = 280
     Width = 600
@@ -274,7 +290,7 @@ object frmMain: TfrmMain
     Style.GradientBeginColor = clFuchsia
     TabOrder = 1
     Transparent = True
-    object ptcCallsRegisterGroup: TdxTileControlGroup
+    object ptcBrigadesRegisterGroup: TdxTileControlGroup
       Caption.Font.Charset = DEFAULT_CHARSET
       Caption.Font.Color = clWhite
       Caption.Font.Height = -16
@@ -283,25 +299,7 @@ object frmMain: TfrmMain
       Caption.Text = #1042#1048#1044' '#1054#1058#1054#1041#1056#1040#1046#1045#1053#1048#1071
       Index = 0
     end
-    object ptiViewCallsLog: TdxTileControlItem
-      GroupIndex = 0
-      IndexInGroup = 1
-      Size = tcisLarge
-      Style.GradientBeginColor = clWhite
-      Text1.Align = oaMiddleCenter
-      Text1.AssignedValues = [avFont]
-      Text1.Font.Charset = DEFAULT_CHARSET
-      Text1.Font.Color = clBlack
-      Text1.Font.Height = -16
-      Text1.Font.Name = 'Segoe UI'
-      Text1.Font.Style = []
-      Text1.Value = #1057#1087#1080#1089#1086#1082
-      Text2.AssignedValues = []
-      Text3.AssignedValues = []
-      Text4.AssignedValues = []
-      OnClick = ptiViewClick
-    end
-    object ptiViewCallsMap: TdxTileControlItem
+    object ptiBrigadesCards: TdxTileControlItem
       Tag = 1
       GroupIndex = 0
       IndexInGroup = 0
@@ -314,16 +312,16 @@ object frmMain: TfrmMain
       Text1.Font.Height = -16
       Text1.Font.Name = 'Segoe UI'
       Text1.Font.Style = []
-      Text1.Value = #1050#1072#1088#1090#1072
+      Text1.Value = #1057#1090#1072#1090#1091#1089
       Text2.AssignedValues = []
       Text3.AssignedValues = []
       Text4.AssignedValues = []
-      OnClick = ptiViewClick
+      OnClick = ptiSubMenuClick
     end
-    object ptiViewCallsScheduler: TdxTileControlItem
+    object ptiBrigadesWorkLoad: TdxTileControlItem
       Tag = 2
       GroupIndex = 0
-      IndexInGroup = 2
+      IndexInGroup = 1
       Size = tcisLarge
       Style.GradientBeginColor = clWhite
       Text1.Align = oaMiddleCenter
@@ -333,16 +331,16 @@ object frmMain: TfrmMain
       Text1.Font.Height = -16
       Text1.Font.Name = 'Segoe UI'
       Text1.Font.Style = []
-      Text1.Value = #1044#1080#1072#1075#1088#1072#1084#1084#1072
+      Text1.Value = #1043#1088#1072#1092#1080#1082' '#1076#1077#1078#1091#1088#1089#1090#1074
       Text2.AssignedValues = []
       Text3.AssignedValues = []
       Text4.AssignedValues = []
-      OnActiveFrameChanged = ptiViewClick
+      OnActiveFrameChanged = ptiSubMenuClick
     end
     object ptiRemoteControl: TdxTileControlItem
       Tag = 3
       GroupIndex = 0
-      IndexInGroup = 3
+      IndexInGroup = 2
       Size = tcisLarge
       Style.GradientBeginColor = clWhite
       Text1.Align = oaMiddleCenter

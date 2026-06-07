@@ -24,7 +24,9 @@ uses
   mcrAppBaseLogClasses in 'Classes\mcrAppBaseLogClasses.pas',
   mcrAppShared in 'Classes\mcrAppShared.pas',
   mcrBrigadesCallsTimeLineTestData in 'TestData\MedBrigades\mcrBrigadesCallsTimeLineTestData.pas',
-  mcrAppVersionInfo in 'Helpers\mcrAppVersionInfo.pas';
+  mcrAppVersionInfo in 'Helpers\mcrAppVersionInfo.pas',
+  MCRAppMapFrame in 'Views\MCRAppMapFrame.pas' {fraMap: TFrame},
+  mcrAppMapClasses in 'Classes\mcrAppMapClasses.pas';
 
 {$R *.res}
 

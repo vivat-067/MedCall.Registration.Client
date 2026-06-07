@@ -18,8 +18,9 @@ const
   IDCallsEdit = IDFirst + 2;
 
   IDBrigades = IDFirst + 3;
+  IDMap = IDFirst + 4;
 
-  IDLast = IDBrigades;
+  IDLast = IDMap;
 
   UM_AFTERACTIVATE = WM_USER + 1;
   UM_BEFOREACTIVATE = WM_USER + 2;

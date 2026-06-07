@@ -150,6 +150,12 @@
         <DCCReference Include="Classes\mcrAppShared.pas"/>
         <DCCReference Include="TestData\MedBrigades\mcrBrigadesCallsTimeLineTestData.pas"/>
         <DCCReference Include="Helpers\mcrAppVersionInfo.pas"/>
+        <DCCReference Include="Views\MCRAppMapFrame.pas">
+            <Form>fraMap</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Classes\mcrAppMapClasses.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
