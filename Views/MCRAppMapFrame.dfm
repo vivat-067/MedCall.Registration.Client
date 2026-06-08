@@ -2,9 +2,9 @@ inherited fraMap: TfraMap
   inherited dxLayoutControl1: TdxLayoutControl
     object webBrowser: TEdgeBrowser [0]
       Left = 219
-      Top = 46
+      Top = 17
       Width = 649
-      Height = 121
+      Height = 150
       TabOrder = 1
       OnCreateWebViewCompleted = webBrowserCreateWebViewCompleted
       OnNavigationCompleted = webBrowserNavigationCompleted
@@ -115,7 +115,6 @@ inherited fraMap: TfraMap
       Parent = dxLayoutGroup2
       AlignHorz = ahClient
       AlignVert = avClient
-      CaptionOptions.Text = #1050#1072#1088#1090#1072
       CaptionOptions.Layout = clTop
       Control = webBrowser
       ControlOptions.OriginalHeight = 41
@@ -162,6 +161,68 @@ inherited fraMap: TfraMap
       LayoutDirection = ldTabbed
       ShowBorder = False
       Index = 1
+    end
+  end
+  inherited cxGroupBox1: TcxGroupBox
+    inherited dxLayoutControl2: TdxLayoutControl
+      object btnLoadData: TcxButton [0]
+        Left = 385
+        Top = 17
+        Width = 110
+        Height = 65
+        Action = acFileLoadData
+        OptionsImage.Images = dmResources.ilButtons
+        OptionsImage.Layout = blGlyphTop
+        SpeedButtonOptions.Flat = True
+        TabOrder = 0
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      inherited dxLayoutGroup4: TdxLayoutGroup
+        Index = 1
+      end
+      object dxLayoutItem1: TdxLayoutItem
+        Parent = dxLayoutControl2Group_Root
+        AlignHorz = ahCenter
+        AlignVert = avCenter
+        CaptionOptions.Visible = False
+        Control = btnLoadData
+        ControlOptions.OriginalHeight = 65
+        ControlOptions.OriginalWidth = 110
+        ControlOptions.ShowBorder = False
+        Index = 0
+      end
+    end
+  end
+  object ActionList1: TActionList
+    Images = dmResources.ilButtons
+    Left = 793
+    Top = 491
+    object acFileLoadData: TAction
+      Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' ...'
+      Hint = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1076#1072#1085#1085#1099#1077
+      ImageIndex = 33
+      OnExecute = acFileLoadDataExecute
+      OnUpdate = acFileLoadDataUpdate
+    end
+    object acEdit: TAction
+      Caption = #1048#1079#1084#1077#1085#1080#1090#1100
+      ImageIndex = 22
+    end
+    object acPrint: TAction
+      Caption = #1055#1077#1095#1072#1090#1100
+    end
+    object asStatusAssign: TAction
+      Caption = #1042#1099#1079#1086#1074
+      ImageIndex = 39
+    end
+    object asRequestCancel: TAction
+      Caption = #1054#1090#1084#1077#1085#1072
+      ImageIndex = 42
     end
   end
 end

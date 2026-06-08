@@ -3,17 +3,22 @@
 interface
 
 uses
-  System.SysUtils, System.IOUtils, Dialogs;
+  System.SysUtils, System.IOUtils, System.Classes,
+  mcrMedBrigadeModel, mcrAppMedBrigadesLogClasses;
+
+const
+   MapTemplateFile='data\html\map.html';
 
 type
-  TMapController = class
+
+  TMapController = class(TMedBrigadesLogController)
   private
-     FApiKey: string;
+    FApiKey: string;
   public
+    constructor Create(const AApiKey: string);
+
     function GetMapHtmlContent: string;
     function GetUpdateMarkersJS: string;
-
-    constructor Create(const AApiKey: string);
   end;
 
 implementation
@@ -30,24 +35,45 @@ function TMapController.GetMapHtmlContent: string;
 var
   LPath: string;
 begin
-  LPath := ExtractFilePath(ParamStr(0)) + 'data\html\map.html';
-
+  LPath := ExtractFilePath(ParamStr(0)) + MapTemplateFile;
   if FileExists(LPath) then
     Result := TFile.ReadAllText(LPath, TEncoding.UTF8).Replace('%YANDEX_API_KEY%', FApiKey)
   else
-    Result := '<html><body><h3>Ошибка МИС</h3>Шаблон карты не найден.</body></html>';
+    Result := '<html><body><h3>Ошибка МИС</h3>Шаблон карты не найден по пути: ' + LPath + '</body></html>';
 end;
 
 function TMapController.GetUpdateMarkersJS: string;
 var
-  FS: TFormatSettings;
+  LFormat: TFormatSettings;
+  Brigade: TMedicalBrigade;
+  JSCodeBuilder: TStringBuilder;
 begin
-  FS := TFormatSettings.Create('en-US');
-  Result := 'clearMap(); ' +
-            Format('addBrigade("%s", %s, %s, "%s"); ', ['B1', FloatToStr(55.7558, FS), FloatToStr(37.6173, FS), 'Бригада 101 (Реанимация)']) +
-            Format('addBrigade("%s", %s, %s, "%s"); ', ['B2', FloatToStr(55.7650, FS), FloatToStr(37.6320, FS), 'Бригада 102 (Линейная)']) +
-            Format('addBrigade("%s", %s, %s, "%s"); ', ['B3', FloatToStr(55.7420, FS), FloatToStr(37.5810, FS), 'Бригада 103 (Педиатрия)']);
+  LFormat := TFormatSettings.Create('en-US');
+  JSCodeBuilder := TStringBuilder.Create;
+  try
+    JSCodeBuilder.Append('clearMap(); ');
+
+    if LoadData then
+    begin
+      for Brigade in BrigadesList do
+      begin
+        JSCodeBuilder.Append(Format('addBrigade("%d", %s, %s, "Бригада %s | %s (%s)"); ', [
+          Brigade.Id,
+          FloatToStr(Brigade.Lat, LFormat),
+          FloatToStr(Brigade.Lon, LFormat),
+          Brigade.BrigadeNumber,
+          Brigade.Doctor,
+          Brigade.GetStatus
+        ]));
+      end;
+    end;
+
+    Result := JSCodeBuilder.ToString;
+  finally
+    JSCodeBuilder.Free;
+  end;
 end;
+
 
 end.
 

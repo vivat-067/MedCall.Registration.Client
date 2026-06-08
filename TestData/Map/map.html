@@ -65,6 +65,15 @@
                 zoom: 11,
                 controls: ['zoomControl', 'fullscreenControl', 'typeSelector']
             });
+
+	    var trafficLayer = ymaps.traffic.control({
+        	provider: new ymaps.traffic.Provider(new ymaps.traffic.TileProvider()),
+	        state: {
+        	    autoRefresh: true, //    
+	            visible: true //    
+        	}
+	    });
+ 	   myMap.controls.add(trafficLayer);
             
             console.log('Карта инициализирована');
         }

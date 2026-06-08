@@ -11,7 +11,9 @@ uses
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges,
   dxScrollbarAnnotations, Data.DB, cxDBData, cxTextEdit, cxMemo, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, Vcl.Edge, dxNavBarBase, dxNavBarCollns, dxNavBar,  mcrAppMapClasses;
+  cxGrid, Vcl.Edge, dxNavBarBase, dxNavBarCollns, dxNavBar,  mcrAppMapClasses,
+  mcrMedBrigadeModel, System.Actions, Vcl.ActnList, dxLayoutControlAdapters,
+  Vcl.Menus, Vcl.StdCtrls, cxButtons;
 
 type
   TfraMap = class(TfraBase)
@@ -34,14 +36,25 @@ type
     gvNotificationsColumn4: TcxGridColumn;
     nbMainItem1: TdxNavBarItem;
     nbMainItem2: TdxNavBarItem;
+    ActionList1: TActionList;
+    acFileLoadData: TAction;
+    acEdit: TAction;
+    acPrint: TAction;
+    asStatusAssign: TAction;
+    asRequestCancel: TAction;
+    dxLayoutItem1: TdxLayoutItem;
+    btnLoadData: TcxButton;
     procedure webBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser;
       AResult: HRESULT);
     procedure webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser;
       IsSuccess: Boolean; WebErrorStatus: TOleEnum);
     procedure webBrowserWebMessageReceived(Sender: TCustomEdgeBrowser;
       Args: TWebMessageReceivedEventArgs);
+    procedure acFileLoadDataExecute(Sender: TObject);
+    procedure acFileLoadDataUpdate(Sender: TObject);
   private
     { Private declarations }
+    FisLoaded :boolean;
     FIsMapInitialized: Boolean;
     FMapController: TMapController;
 
@@ -63,16 +76,16 @@ implementation
 {$R *.dfm}
 
  uses
-   mcrResourcesDM;
+   mcrResourcesDM, mcrUtils;
 
 { TfraMap }
 
 procedure TfraMap.Init;
 begin
   inherited;
-   FMapController := TMapController.Create('YANDEX_MAPS_API_KEY');
+   FMapController := TMapController.Create(WebMapAPIKey);
    FIsMapInitialized := False;
-
+   FisLoaded := false;
  end;
 
 
@@ -82,6 +95,18 @@ begin
   FreeAndNil(FMapController);
 end;
 
+
+procedure TfraMap.acFileLoadDataExecute(Sender: TObject);
+begin
+  inherited;
+  Reload;
+end;
+
+procedure TfraMap.acFileLoadDataUpdate(Sender: TObject);
+begin
+  inherited;
+    (Sender as TAction).Enabled := not FisLoaded;
+end;
 
 procedure TfraMap.DoAfterActivate;
 begin
@@ -114,22 +139,38 @@ procedure TfraMap.webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser;
   IsSuccess: Boolean; WebErrorStatus: TOleEnum);
 begin
   inherited;
-  if IsSuccess then
-     Reload;
+  //
 end;
+
 
 procedure TfraMap.Reload;
 begin
-  if FIsMapInitialized and (webBrowser.DefaultInterface <> nil) then
+  if FIsMapInitialized and (webBrowser.DefaultInterface <> nil) then begin
      webBrowser.ExecuteScript(FMapController.GetUpdateMarkersJS);
+     FisLoaded:=true;
+  end;
 end;
+
+
 
 procedure TfraMap.webBrowserWebMessageReceived(Sender: TCustomEdgeBrowser;
   Args: TWebMessageReceivedEventArgs);
+var
+  LJsonID: PWideChar;
 begin
   inherited;
-    //
+  if Succeeded(Args.ArgsInterface.Get_webMessageAsJson(LJsonID)) then
+  try
+    var LTargetID := StrToIntDef(string(LJsonID).DeQuotedString('"'), 0);
+    var LBrigade := FMapController.GetBrigadeById(LTargetID);
+    if Assigned(LBrigade) then
+      memChat.Lines.Add(Format('[%s] Врач: %s (%s)', [LBrigade.BrigadeNumber, LBrigade.Doctor, LBrigade.GetStatus]));
+  finally
+    CoTaskMemFree(LJsonID);
+  end;
 end;
+
+
 
 initialization
   RegisterFrame(IDMap, TfraMap);

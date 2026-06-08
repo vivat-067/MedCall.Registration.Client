@@ -8,7 +8,7 @@ uses
   System.SysUtils, cxFilterControlDialog, cxGridTableView, cxGridStdPopupMenu,
   cxGridCustomView, Vcl.Controls, cxEdit, cxCustomData, cxGridLevel, dxBar,
   cxSpinEdit, cxMaskEdit, dxPrnPg, Vcl.Graphics, cxDataStorage, cxCheckComboBox,
-  cxLookAndFeelPainters, cxGridDBLayoutView, dxGDIPlusClasses,
+  cxLookAndFeelPainters, cxGridDBLayoutView, dxGDIPlusClasses, System.IOUtils,
   cxScheduler, cxSchedulerStorage;
 
 procedure GridSetImage(ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer; ASmartImage: TdxSmartImage);
@@ -22,6 +22,8 @@ procedure CreateSchedulerEvent(AStorage: TcxCustomSchedulerStorage; AResourceID:
 
 
 procedure ScrollToFirstEvent(Scheduler: TcxScheduler);
+
+function WebMapAPIKey:string;
 
 
 implementation
@@ -83,10 +85,8 @@ begin
   Event.Start := AStart;
   Event.Finish := AEnd;
   Event.LabelColor := AColor;
-
   if AResourceID > 0 then
     Event.ResourceID := AResourceID;
-
   Event.Post;
 end;
 
@@ -98,9 +98,22 @@ begin
     TargetDate := VarToDateTime(Scheduler.Storage.Events[0].Start)
   else
     TargetDate := Date;
-
   Scheduler.GoToDate(TargetDate);
 end;
+
+function WebMapAPIKey:string;
+var
+  LPath: string;
+begin
+  Result :='';
+
+  LPath := ExtractFilePath(ParamStr(0)) + 'WebMapAPI.key';
+
+  if FileExists(LPath) then
+    Result := TFile.ReadAllText(LPath);
+
+end;
+
 
 end.
 

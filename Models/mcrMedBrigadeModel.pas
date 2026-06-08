@@ -21,6 +21,8 @@ type
     FDoctorPhotoPath: string;
     FCommPhone1: string;
     FCommPhone2: string;
+    FLat: Double;
+    FLon: Double;
     procedure SetBrigadeNumber(const Value: string);
     procedure SetDoctorPhotoPath(const Value: string);
     procedure SetCommPhone1(const Value: string);
@@ -28,6 +30,7 @@ type
   published
     property Id: Integer read FId write FId;
     property BrigadeNumber: string read FBrigadeNumber write SetBrigadeNumber;
+
     property Doctor: string read FDoctor write FDoctor;
     property Paramedic: string read FParamedic write FParamedic;
     property Driver: string read FDriver write FDriver;
@@ -36,6 +39,9 @@ type
     property DoctorPhotoPath: string read FDoctorPhotoPath write SetDoctorPhotoPath;
     property CommPhone1: string read FCommPhone1 write SetCommPhone1;
     property CommPhone2: string read FCommPhone2 write SetCommPhone2;
+
+    property Lat: Double read FLat write FLat;
+    property Lon: Double read FLon write FLon;
   public
     procedure LoadDoctorPhoto(const AFilePath: string);
     procedure AssignPhotoToPicture(APicture: TPicture);
@@ -43,6 +49,7 @@ type
 
     class function FromJSON(const JSONObject: TJSONObject): TMedicalBrigade;
     function ToJSON: string;
+
     constructor Create;
   end;
 
@@ -65,6 +72,8 @@ begin
   inherited;
   FId := 0;
   FStatus := bsAvailable;
+  FLat := 0.0;
+  FLon := 0.0;
 end;
 
 procedure TMedicalBrigade.SetBrigadeNumber(const Value: string);
@@ -141,6 +150,11 @@ begin
     JSONObject.AddPair('comment', ToJSONStringOrNull(FComment));
     {$ENDREGION}
 
+    {$REGION 'ГЕО-КООРДИНАТЫ КАРТЫ'}
+    JSONObject.AddPair('lat', TJSONNumber.Create(FLat));
+    JSONObject.AddPair('lon', TJSONNumber.Create(FLon));
+    {$ENDREGION}
+
     Result := JSONObject.ToJSON;
   finally
     JSONObject.Free;
@@ -177,6 +191,12 @@ begin
     {$REGION 'ДОПОЛНИТЕЛЬНО'}
     Result.FComment := JSONObject.GetValue<string>('comment', '');
     {$ENDREGION}
+
+    {$REGION 'ГЕО-КООРДИНАТЫ КАРТЫ'}
+
+    Result.FLat := JSONObject.GetValue<Double>('lat', 0.0);
+    Result.FLon := JSONObject.GetValue<Double>('lon', 0.0);
+    {$ENDREGION}
   except
     Result.Free;
     raise;
@@ -189,3 +209,4 @@ begin
 end;
 
 end.
+

@@ -192,7 +192,6 @@ procedure TfraBrigades.SortByBrigadeNumber(ASortOrder: TcxGridSortOrder);
 begin
   with gvMedicalBrigades.DataController do
   begin
-//    ClearSorting(True);
     gliBrigadeId.SortOrder := ASortOrder;
     gliBrigadeId.SortIndex := 0;
 
