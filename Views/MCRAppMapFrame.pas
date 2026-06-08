@@ -1,4 +1,4 @@
-unit MCRAppMapFrame;
+﻿unit MCRAppMapFrame;
 
 interface
 
@@ -73,7 +73,6 @@ begin
    FMapController := TMapController.Create('YANDEX_MAPS_API_KEY');
    FIsMapInitialized := False;
 
-  webBrowser.Navigate('about:blank');
  end;
 
 
@@ -88,6 +87,9 @@ procedure TfraMap.DoAfterActivate;
 begin
   inherited;
   nbMain.OptionsBehavior.NavigationPane.Collapsed := True;
+
+  if not FIsMapInitialized then
+     webBrowser.ReinitializeWebView;
 end;
 
 
@@ -100,8 +102,12 @@ end;
 procedure TfraMap.webBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser;
   AResult: HRESULT);
 begin
+
+ if Succeeded(AResult) then
+  begin
     FIsMapInitialized := True;
     webBrowser.NavigateToString(FMapController.GetMapHtmlContent);
+  end;
 end;
 
 procedure TfraMap.webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser;
@@ -109,13 +115,13 @@ procedure TfraMap.webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser;
 begin
   inherited;
   if IsSuccess then
-      Reload;
+     Reload;
 end;
 
 procedure TfraMap.Reload;
 begin
   if FIsMapInitialized and (webBrowser.DefaultInterface <> nil) then
-    webBrowser.ExecuteScript(FMapController.GetUpdateMarkersJS);
+     webBrowser.ExecuteScript(FMapController.GetUpdateMarkersJS);
 end;
 
 procedure TfraMap.webBrowserWebMessageReceived(Sender: TCustomEdgeBrowser;
