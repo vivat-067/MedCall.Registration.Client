@@ -53,9 +53,12 @@ type
     liBrigadeStatus: TdxLayoutItem;
     edBrigadeStatus: TcxTextEdit;
     liBrigadeDoctor: TdxLayoutItem;
-    cxTextEdit1: TcxTextEdit;
+    edBrigadeDoctor: TcxTextEdit;
     liBrigadeParaMedic: TdxLayoutItem;
     edBrigadeParaMedic: TcxTextEdit;
+    liBrigadeDriver: TdxLayoutItem;
+    edBrigadeDriver: TcxTextEdit;
+    dxLayoutSplitterItem1: TdxLayoutSplitterItem;
     procedure webBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser;
       AResult: HRESULT);
     procedure webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser;
@@ -115,19 +118,18 @@ procedure TfraMap.acFileLoadDataExecute(Sender: TObject);
 begin
   inherited;
   Reload;
+  FisLoaded:=true;
 end;
 
 procedure TfraMap.acFileLoadDataUpdate(Sender: TObject);
 begin
   inherited;
-    (Sender as TAction).Enabled := not FisLoaded;
+    (Sender as TAction).Enabled := FIsMapInitialized and (not FisLoaded);
 end;
 
 procedure TfraMap.DoAfterActivate;
 begin
   inherited;
-  nbMain.OptionsBehavior.NavigationPane.Collapsed := True;
-
   if not FIsMapInitialized then
      webBrowser.ReinitializeWebView;
 end;
@@ -142,7 +144,6 @@ end;
 procedure TfraMap.webBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser;
   AResult: HRESULT);
 begin
-
  if Succeeded(AResult) then
   begin
     FIsMapInitialized := True;
@@ -154,7 +155,7 @@ procedure TfraMap.webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser;
   IsSuccess: Boolean; WebErrorStatus: TOleEnum);
 begin
   inherited;
-  //
+   //
 end;
 
 
@@ -163,7 +164,6 @@ begin
   if FIsMapInitialized and (webBrowser.DefaultInterface <> nil) then begin
      СlearBrigadeDetails;
      webBrowser.ExecuteScript(FMapController.GetUpdateMarkersJS);
-     FisLoaded:=true;
   end;
 end;
 
@@ -200,16 +200,10 @@ begin
   begin
     edBrigadeNumber.Text := ABrigade.BrigadeNumber;
     edBrigadeStatus.Text := ABrigade.GetStatus;
-
-    cxTextEdit1.Text := ABrigade.Doctor;
+    edBrigadeDoctor.Text := ABrigade.Doctor;
     edBrigadeParaMedic.Text := ABrigade.Paramedic;
-
-    // edDriver.Text := ABrigade.Driver;
-    // memComment.Text := ABrigade.Comment;
-
-    // ABrigade.AssignPhotoToPicture(imgDoctor.Picture);
-  end
-  else
+    edBrigadeDriver.Text := ABrigade.Driver;
+  end else
     СlearBrigadeDetails;
 end;
 
@@ -218,9 +212,9 @@ procedure TfraMap.СlearBrigadeDetails;
 begin
   edBrigadeNumber.Clear;
   edBrigadeStatus.Clear;
-  cxTextEdit1.Clear;
+  edBrigadeDoctor.Clear;
   edBrigadeParaMedic.Clear;
-  // imgDoctor.Picture.Graphic := nil;
+  edBrigadeDriver.Clear;
 end;
 
 initialization

@@ -46,7 +46,6 @@ begin
   FApiKey := AApiKey;
   FStatusIcons := TDictionary<TBrigadeStatus, string>.Create;
   basePath := ExtractFilePath(ParamStr(0)) + IconsFolder;
-
   TryAddIcon(bsAvailable, '01.png');
   TryAddIcon(bsConfirming, '02.png');
   TryAddIcon(bsArrived, '03.png');
@@ -68,7 +67,6 @@ begin
   Result := '';
   if not FileExists(AFilePath) then
     Exit;
-
   stream := TMemoryStream.Create;
   try
     stream.LoadFromFile(AFilePath);
@@ -115,25 +113,8 @@ begin
       for brigade in BrigadesList do
       begin
         iconUrl := GetIconForStatus(brigade.Status);
-
-        // Формируем текст и безопасно экранируем двойные кавычки для JS-контекста
-        escapedLabel := Format('Бригада %s | %s (%s)', [
-          brigade.BrigadeNumber,
-          brigade.Doctor,
-          brigade.GetStatus
-        ]).Replace('"', '\"', [rfReplaceAll]);
-
-        // Передаем строки в двойных кавычках ("%s"), координаты — как числа (%s) без кавычек
-        jsCodeBuilder.Append(Format(
-          'addBrigade("%d", %s, %s, "%s", "%s"); ',
-          [
-            brigade.Id,
-            FloatToStr(brigade.Lat, formatSettings),
-            FloatToStr(brigade.Lon, formatSettings),
-            escapedLabel,
-            iconUrl
-          ]
-        ));
+         escapedLabel := Format('Бригада %s | %s (%s)', [brigade.BrigadeNumber, brigade.Doctor, brigade.GetStatus]).Replace('"', '\"', [rfReplaceAll]);
+        jsCodeBuilder.Append(Format('addBrigade("%d", %s, %s, "%s", "%s"); ', [brigade.Id, FloatToStr(brigade.Lat, formatSettings), FloatToStr(brigade.Lon, formatSettings), escapedLabel, iconUrl]));
       end;
     end;
     Result := jsCodeBuilder.ToString;

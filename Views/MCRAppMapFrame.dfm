@@ -7,19 +7,19 @@ inherited fraMap: TfraMap
     object webBrowser: TEdgeBrowser [0]
       Left = 219
       Top = 17
-      Width = 696
-      Height = 291
+      Width = 715
+      Height = 274
       TabOrder = 1
       OnCreateWebViewCompleted = webBrowserCreateWebViewCompleted
       OnNavigationCompleted = webBrowserNavigationCompleted
       OnWebMessageReceived = webBrowserWebMessageReceived
     end
     object grNotifications: TcxGrid [1]
-      Left = 651
-      Top = 357
-      Width = 254
+      Left = 827
+      Top = 340
+      Width = 97
       Height = 200
-      TabOrder = 7
+      TabOrder = 8
       object gvNotifications: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         FilterBox.Visible = fvNever
@@ -50,19 +50,19 @@ inherited fraMap: TfraMap
       end
     end
     object memChat: TcxMemo [2]
-      Left = 456
-      Top = 357
+      Left = 505
+      Top = 340
       Style.HotTrack = False
       Style.TransparentBorder = False
-      TabOrder = 6
+      TabOrder = 7
       Height = 200
-      Width = 185
+      Width = 300
     end
     object nbMain: TdxNavBar [3]
       Left = 58
       Top = 18
       Width = 150
-      Height = 538
+      Height = 521
       ActiveGroupIndex = 0
       TabOrder = 0
       View = 21
@@ -114,7 +114,7 @@ inherited fraMap: TfraMap
         Left = 0
         Top = 0
         Width = 150
-        Height = 538
+        Height = 521
         Caption = 'nbMainGroup3Control'
         TabOrder = 0
         GroupIndex = 1
@@ -122,48 +122,59 @@ inherited fraMap: TfraMap
       end
     end
     object edBrigadeNumber: TcxTextEdit [4]
-      Left = 315
-      Top = 328
+      Left = 305
+      Top = 348
       AutoSize = False
       Properties.ReadOnly = True
       Style.HotTrack = False
       Style.TransparentBorder = False
       TabOrder = 2
       Height = 23
-      Width = 121
+      Width = 180
     end
     object edBrigadeStatus: TcxTextEdit [5]
-      Left = 315
-      Top = 361
+      Left = 305
+      Top = 381
       AutoSize = False
       Properties.ReadOnly = True
       Style.HotTrack = False
       Style.TransparentBorder = False
       TabOrder = 3
       Height = 23
-      Width = 121
+      Width = 180
     end
-    object cxTextEdit1: TcxTextEdit [6]
-      Left = 315
-      Top = 394
+    object edBrigadeDoctor: TcxTextEdit [6]
+      Left = 305
+      Top = 414
       AutoSize = False
       Properties.ReadOnly = True
       Style.HotTrack = False
       Style.TransparentBorder = False
       TabOrder = 4
       Height = 23
-      Width = 121
+      Width = 180
     end
     object edBrigadeParaMedic: TcxTextEdit [7]
-      Left = 315
-      Top = 427
+      Left = 305
+      Top = 447
       AutoSize = False
       Properties.ReadOnly = True
       Style.HotTrack = False
       Style.TransparentBorder = False
       TabOrder = 5
       Height = 23
-      Width = 121
+      Width = 180
+    end
+    object edBrigadeDriver: TcxTextEdit [8]
+      Left = 305
+      Top = 480
+      AutoSize = False
+      Properties.ReadOnly = True
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      TabOrder = 6
+      Height = 23
+      Width = 180
     end
     inherited dxLayoutControl1Group_Root: TdxLayoutGroup
       ItemIndex = 2
@@ -199,7 +210,7 @@ inherited fraMap: TfraMap
       ControlOptions.OriginalHeight = 200
       ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object liChat: TdxLayoutItem
       Parent = dxLayoutGroup1
@@ -209,7 +220,7 @@ inherited fraMap: TfraMap
       CaptionOptions.Layout = clTop
       Control = memChat
       ControlOptions.OriginalHeight = 89
-      ControlOptions.OriginalWidth = 185
+      ControlOptions.OriginalWidth = 300
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -233,7 +244,7 @@ inherited fraMap: TfraMap
     end
     object lgBottom: TdxLayoutGroup
       Parent = dxLayoutGroup2
-      Offsets.Left = 10
+      CaptionOptions.Text = #1050#1086#1084#1084#1091#1085#1080#1082#1072#1094#1080#1103
       Offsets.Right = 10
       Offsets.Top = 10
       ItemIndex = 1
@@ -246,8 +257,9 @@ inherited fraMap: TfraMap
     object dxLayoutGroup5: TdxLayoutGroup
       Parent = lgBottom
       AlignHorz = ahLeft
-      AlignVert = avClient
+      AlignVert = avCenter
       Offsets.Right = 10
+      ItemIndex = 4
       ShowBorder = False
       Index = 0
     end
@@ -257,7 +269,7 @@ inherited fraMap: TfraMap
       CaptionOptions.Text = #1041#1088#1080#1075#1072#1076#1072':'
       Control = edBrigadeNumber
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 121
+      ControlOptions.OriginalWidth = 180
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -267,7 +279,7 @@ inherited fraMap: TfraMap
       CaptionOptions.Text = #1057#1090#1072#1090#1091#1089':'
       Control = edBrigadeStatus
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 121
+      ControlOptions.OriginalWidth = 180
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -275,9 +287,9 @@ inherited fraMap: TfraMap
       Parent = dxLayoutGroup5
       AlignHorz = ahLeft
       CaptionOptions.Text = #1042#1088#1072#1095':'
-      Control = cxTextEdit1
+      Control = edBrigadeDoctor
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 121
+      ControlOptions.OriginalWidth = 180
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -287,9 +299,27 @@ inherited fraMap: TfraMap
       CaptionOptions.Text = #1060#1077#1083#1100#1076#1096#1077#1088':'
       Control = edBrigadeParaMedic
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 121
+      ControlOptions.OriginalWidth = 180
       ControlOptions.ShowBorder = False
       Index = 3
+    end
+    object liBrigadeDriver: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahLeft
+      CaptionOptions.Text = #1042#1086#1076#1080#1090#1077#1083#1100':'
+      Control = edBrigadeDriver
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 180
+      ControlOptions.ShowBorder = False
+      Index = 4
+    end
+    object dxLayoutSplitterItem1: TdxLayoutSplitterItem
+      Parent = dxLayoutGroup1
+      SizeOptions.AssignedValues = [sovSizableHorz, sovSizableVert]
+      SizeOptions.SizableHorz = False
+      SizeOptions.SizableVert = False
+      CaptionOptions.Text = 'Splitter'
+      Index = 1
     end
   end
   inherited cxGroupBox1: TcxGroupBox
@@ -298,9 +328,9 @@ inherited fraMap: TfraMap
     inherited dxLayoutControl2: TdxLayoutControl
       Width = 928
       object btnLoadData: TcxButton [0]
-        Left = 409
+        Left = 400
         Top = 17
-        Width = 110
+        Width = 128
         Height = 65
         Action = acFileLoadData
         OptionsImage.Images = dmResources.ilButtons
@@ -324,7 +354,7 @@ inherited fraMap: TfraMap
         CaptionOptions.Visible = False
         Control = btnLoadData
         ControlOptions.OriginalHeight = 65
-        ControlOptions.OriginalWidth = 110
+        ControlOptions.OriginalWidth = 128
         ControlOptions.ShowBorder = False
         Index = 0
       end
