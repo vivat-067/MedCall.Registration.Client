@@ -46,6 +46,16 @@ type
     btnLoadData: TcxButton;
     nbMainGroup3: TdxNavBarGroup;
     nbMainGroup3Control: TdxNavBarGroupControl;
+    lgBottom: TdxLayoutGroup;
+    dxLayoutGroup5: TdxLayoutGroup;
+    edBrigadeNumber: TcxTextEdit;
+    dxLayoutItem3: TdxLayoutItem;
+    liBrigadeStatus: TdxLayoutItem;
+    edBrigadeStatus: TcxTextEdit;
+    liBrigadeDoctor: TdxLayoutItem;
+    cxTextEdit1: TcxTextEdit;
+    liBrigadeParaMedic: TdxLayoutItem;
+    edBrigadeParaMedic: TcxTextEdit;
     procedure webBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser;
       AResult: HRESULT);
     procedure webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser;
@@ -64,6 +74,9 @@ type
 
     procedure RefreshInfo; override;
     procedure Reload;
+
+    procedure FillBrigadeDetails(ABrigade: TMedicalBrigade);
+    procedure СlearBrigadeDetails;
 
   public
     procedure Init; override;
@@ -148,6 +161,7 @@ end;
 procedure TfraMap.Reload;
 begin
   if FIsMapInitialized and (webBrowser.DefaultInterface <> nil) then begin
+     СlearBrigadeDetails;
      webBrowser.ExecuteScript(FMapController.GetUpdateMarkersJS);
      FisLoaded:=true;
   end;
@@ -158,21 +172,56 @@ end;
 procedure TfraMap.webBrowserWebMessageReceived(Sender: TCustomEdgeBrowser;
   Args: TWebMessageReceivedEventArgs);
 var
-  LJsonID: PWideChar;
+  jsonID: PWideChar;
+  targetID: Integer;
+  brigade: TMedicalBrigade;
 begin
   inherited;
-  if Succeeded(Args.ArgsInterface.Get_webMessageAsJson(LJsonID)) then
+  if Succeeded(Args.ArgsInterface.Get_webMessageAsJson(jsonID)) then
   try
-    var LTargetID := StrToIntDef(string(LJsonID).DeQuotedString('"'), 0);
-    var LBrigade := FMapController.GetBrigadeById(LTargetID);
-    if Assigned(LBrigade) then
-      memChat.Lines.Add(Format('[%s] Врач: %s (%s)', [LBrigade.BrigadeNumber, LBrigade.Doctor, LBrigade.GetStatus]));
+    targetID := StrToIntDef(string(jsonID).DeQuotedString('"'), 0);
+    brigade := FMapController.GetBrigadeById(targetID);
+    if Assigned(brigade) then
+    begin
+      FillBrigadeDetails(brigade);
+      memChat.Lines.Add(Format('[%s] Врач: %s (%s)', [brigade.BrigadeNumber, brigade.Doctor, brigade.GetStatus]));
+    end
+    else
+      СlearBrigadeDetails;
   finally
-    CoTaskMemFree(LJsonID);
+    CoTaskMemFree(jsonID);
   end;
 end;
 
 
+procedure TfraMap.FillBrigadeDetails(ABrigade: TMedicalBrigade);
+begin
+  if Assigned(ABrigade) then
+  begin
+    edBrigadeNumber.Text := ABrigade.BrigadeNumber;
+    edBrigadeStatus.Text := ABrigade.GetStatus;
+
+    cxTextEdit1.Text := ABrigade.Doctor;
+    edBrigadeParaMedic.Text := ABrigade.Paramedic;
+
+    // edDriver.Text := ABrigade.Driver;
+    // memComment.Text := ABrigade.Comment;
+
+    // ABrigade.AssignPhotoToPicture(imgDoctor.Picture);
+  end
+  else
+    СlearBrigadeDetails;
+end;
+
+
+procedure TfraMap.СlearBrigadeDetails;
+begin
+  edBrigadeNumber.Clear;
+  edBrigadeStatus.Clear;
+  cxTextEdit1.Clear;
+  edBrigadeParaMedic.Clear;
+  // imgDoctor.Picture.Graphic := nil;
+end;
 
 initialization
   RegisterFrame(IDMap, TfraMap);

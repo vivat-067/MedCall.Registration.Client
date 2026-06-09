@@ -8,18 +8,18 @@ inherited fraMap: TfraMap
       Left = 219
       Top = 17
       Width = 696
-      Height = 260
+      Height = 291
       TabOrder = 1
       OnCreateWebViewCompleted = webBrowserCreateWebViewCompleted
       OnNavigationCompleted = webBrowserNavigationCompleted
       OnWebMessageReceived = webBrowserWebMessageReceived
     end
     object grNotifications: TcxGrid [1]
-      Left = 240
-      Top = 336
-      Width = 654
+      Left = 651
+      Top = 357
+      Width = 254
       Height = 200
-      TabOrder = 2
+      TabOrder = 7
       object gvNotifications: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         FilterBox.Visible = fvNever
@@ -50,21 +50,19 @@ inherited fraMap: TfraMap
       end
     end
     object memChat: TcxMemo [2]
-      Left = 10000
-      Top = 10000
+      Left = 456
+      Top = 357
       Style.HotTrack = False
       Style.TransparentBorder = False
-      TabOrder = 3
-      Visible = False
+      TabOrder = 6
       Height = 200
-      Width = 607
+      Width = 185
     end
     object nbMain: TdxNavBar [3]
       Left = 58
       Top = 18
       Width = 150
       Height = 538
-      Align = alLeft
       ActiveGroupIndex = 0
       TabOrder = 0
       View = 21
@@ -123,6 +121,53 @@ inherited fraMap: TfraMap
         OriginalHeight = 41
       end
     end
+    object edBrigadeNumber: TcxTextEdit [4]
+      Left = 315
+      Top = 328
+      AutoSize = False
+      Properties.ReadOnly = True
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      TabOrder = 2
+      Height = 23
+      Width = 121
+    end
+    object edBrigadeStatus: TcxTextEdit [5]
+      Left = 315
+      Top = 361
+      AutoSize = False
+      Properties.ReadOnly = True
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      TabOrder = 3
+      Height = 23
+      Width = 121
+    end
+    object cxTextEdit1: TcxTextEdit [6]
+      Left = 315
+      Top = 394
+      AutoSize = False
+      Properties.ReadOnly = True
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      TabOrder = 4
+      Height = 23
+      Width = 121
+    end
+    object edBrigadeParaMedic: TcxTextEdit [7]
+      Left = 315
+      Top = 427
+      AutoSize = False
+      Properties.ReadOnly = True
+      Style.HotTrack = False
+      Style.TransparentBorder = False
+      TabOrder = 5
+      Height = 23
+      Width = 121
+    end
+    inherited dxLayoutControl1Group_Root: TdxLayoutGroup
+      ItemIndex = 2
+    end
     inherited dxLayoutGroup2: TdxLayoutGroup
       ItemIndex = 1
       Index = 2
@@ -149,24 +194,24 @@ inherited fraMap: TfraMap
       AlignHorz = ahClient
       AlignVert = avClient
       CaptionOptions.Text = #1059#1074#1077#1076#1086#1084#1083#1077#1085#1080#1103
-      CaptionOptions.Visible = False
+      CaptionOptions.Layout = clTop
       Control = grNotifications
       ControlOptions.OriginalHeight = 200
       ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object liChat: TdxLayoutItem
       Parent = dxLayoutGroup1
-      AlignHorz = ahClient
+      AlignHorz = ahLeft
       AlignVert = avClient
       CaptionOptions.Text = #1063#1072#1090
-      CaptionOptions.Visible = False
+      CaptionOptions.Layout = clTop
       Control = memChat
       ControlOptions.OriginalHeight = 89
       ControlOptions.OriginalWidth = 185
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 0
     end
     object liNavBar: TdxLayoutItem
       Parent = dxLayoutControl1Group_Root
@@ -178,11 +223,73 @@ inherited fraMap: TfraMap
       Index = 1
     end
     object dxLayoutGroup1: TdxLayoutGroup
-      Parent = dxLayoutGroup2
-      AlignVert = avBottom
-      LayoutDirection = ldTabbed
+      Parent = lgBottom
+      AlignHorz = ahClient
+      AlignVert = avClient
+      ItemIndex = 1
+      LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
+    end
+    object lgBottom: TdxLayoutGroup
+      Parent = dxLayoutGroup2
+      Offsets.Left = 10
+      Offsets.Right = 10
+      Offsets.Top = 10
+      ItemIndex = 1
+      LayoutDirection = ldHorizontal
+      Padding.Left = 10
+      Padding.AssignedValues = [lpavLeft]
+      ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup5: TdxLayoutGroup
+      Parent = lgBottom
+      AlignHorz = ahLeft
+      AlignVert = avClient
+      Offsets.Right = 10
+      ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem3: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahLeft
+      CaptionOptions.Text = #1041#1088#1080#1075#1072#1076#1072':'
+      Control = edBrigadeNumber
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object liBrigadeStatus: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahLeft
+      CaptionOptions.Text = #1057#1090#1072#1090#1091#1089':'
+      Control = edBrigadeStatus
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object liBrigadeDoctor: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahLeft
+      CaptionOptions.Text = #1042#1088#1072#1095':'
+      Control = cxTextEdit1
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object liBrigadeParaMedic: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahLeft
+      CaptionOptions.Text = #1060#1077#1083#1100#1076#1096#1077#1088':'
+      Control = edBrigadeParaMedic
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 3
     end
   end
   inherited cxGroupBox1: TcxGroupBox

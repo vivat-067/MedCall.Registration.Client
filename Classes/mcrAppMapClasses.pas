@@ -20,7 +20,6 @@ type
   public
     constructor Create(const AApiKey: string);
     destructor Destroy; override;
-
     function GetMapHtmlContent: string;
     function GetUpdateMarkersJS: string;
   end;
@@ -31,23 +30,22 @@ implementation
 
 constructor TMapController.Create(const AApiKey: string);
 var
-  BasePath: string;
+  basePath: string;
 
   procedure TryAddIcon(AStatus: TBrigadeStatus; const AFileName: string);
   var
-    DataUrl: string;
+    dataUrl: string;
   begin
-    DataUrl := FileToDataUrl(BasePath + AFileName);
-    if DataUrl <> '' then
-      FStatusIcons.Add(AStatus, DataUrl);
+    dataUrl := FileToDataUrl(basePath + AFileName);
+    if dataUrl <> '' then
+      FStatusIcons.Add(AStatus, dataUrl);
   end;
 
 begin
   inherited Create;
   FApiKey := AApiKey;
-
   FStatusIcons := TDictionary<TBrigadeStatus, string>.Create;
-  BasePath := ExtractFilePath(ParamStr(0)) + IconsFolder;
+  basePath := ExtractFilePath(ParamStr(0)) + IconsFolder;
 
   TryAddIcon(bsAvailable, '01.png');
   TryAddIcon(bsConfirming, '02.png');
@@ -64,25 +62,22 @@ end;
 
 function TMapController.FileToDataUrl(const AFilePath: string): string;
 var
-  Stream: TMemoryStream;
-  Bytes: TBytes;
+  stream: TMemoryStream;
+  bytes: TBytes;
 begin
   Result := '';
-  if not FileExists(AFilePath) then Exit;
+  if not FileExists(AFilePath) then
+    Exit;
 
-  Stream := TMemoryStream.Create;
+  stream := TMemoryStream.Create;
   try
-    Stream.LoadFromFile(AFilePath);
-    SetLength(Bytes, Stream.Size);
-    Stream.Position := 0;
-    Stream.ReadBuffer(Bytes, Stream.Size);
-
-    Result := 'data:image/png;base64,' +
-              TNetEncoding.Base64.EncodeBytesToString(Bytes)
-              .Replace(#13, '', [rfReplaceAll])
-              .Replace(#10, '', [rfReplaceAll]);
+    stream.LoadFromFile(AFilePath);
+    SetLength(bytes, stream.Size);
+    stream.Position := 0;
+    stream.ReadBuffer(bytes, stream.Size);
+    Result := 'data:image/png;base64,' + TNetEncoding.Base64.EncodeBytesToString(bytes).Replace(#13, '', [rfReplaceAll]).Replace(#10, '', [rfReplaceAll]);
   finally
-    Stream.Free;
+    stream.Free;
   end;
 end;
 
@@ -94,56 +89,56 @@ end;
 
 function TMapController.GetMapHtmlContent: string;
 var
-  LPath: string;
+  mapPath: string;
 begin
-  LPath := ExtractFilePath(ParamStr(0)) + MapTemplateFile;
-  if FileExists(LPath) then
-    Result := TFile.ReadAllText(LPath, TEncoding.UTF8).Replace('%YANDEX_API_KEY%', FApiKey)
+  mapPath := ExtractFilePath(ParamStr(0)) + MapTemplateFile;
+  if FileExists(mapPath) then
+    Result := TFile.ReadAllText(mapPath, TEncoding.UTF8).Replace('%YANDEX_API_KEY%', FApiKey)
   else
-    Result := '<html><body><h3>Ошибка МИС</h3>Шаблон карты не найден: ' + LPath + '</body></html>';
+    Result := '<html><body><h3>Ошибка МИС</h3>Шаблон карты не найден: ' + mapPath + '</body></html>';
 end;
 
 function TMapController.GetUpdateMarkersJS: string;
 var
-  LFormat: TFormatSettings;
-  Brigade: TMedicalBrigade;
-  JSCodeBuilder: TStringBuilder;
-  IconUrl: string;
-  EscapedLabel: string;
+  formatSettings: TFormatSettings;
+  brigade: TMedicalBrigade;
+  jsCodeBuilder: TStringBuilder;
+  iconUrl: string;
+  escapedLabel: string;
 begin
-  LFormat := TFormatSettings.Create('en-US');
-  JSCodeBuilder := TStringBuilder.Create;
+  formatSettings := TFormatSettings.Create('en-US');
+  jsCodeBuilder := TStringBuilder.Create;
   try
-    JSCodeBuilder.Append('clearMap(); ');
+    jsCodeBuilder.Append('clearMap(); ');
     if LoadData then
     begin
-      for Brigade in BrigadesList do
+      for brigade in BrigadesList do
       begin
-        IconUrl := GetIconForStatus(Brigade.Status);
+        iconUrl := GetIconForStatus(brigade.Status);
 
         // Формируем текст и безопасно экранируем двойные кавычки для JS-контекста
-        EscapedLabel := Format('Бригада %s | %s (%s)', [
-          Brigade.BrigadeNumber,
-          Brigade.Doctor,
-          Brigade.GetStatus
+        escapedLabel := Format('Бригада %s | %s (%s)', [
+          brigade.BrigadeNumber,
+          brigade.Doctor,
+          brigade.GetStatus
         ]).Replace('"', '\"', [rfReplaceAll]);
 
         // Передаем строки в двойных кавычках ("%s"), координаты — как числа (%s) без кавычек
-        JSCodeBuilder.Append(Format(
+        jsCodeBuilder.Append(Format(
           'addBrigade("%d", %s, %s, "%s", "%s"); ',
           [
-            Brigade.Id,
-            FloatToStr(Brigade.Lat, LFormat),
-            FloatToStr(Brigade.Lon, LFormat),
-            EscapedLabel,
-            IconUrl
+            brigade.Id,
+            FloatToStr(brigade.Lat, formatSettings),
+            FloatToStr(brigade.Lon, formatSettings),
+            escapedLabel,
+            iconUrl
           ]
         ));
       end;
     end;
-    Result := JSCodeBuilder.ToString;
+    Result := jsCodeBuilder.ToString;
   finally
-    JSCodeBuilder.Free;
+    jsCodeBuilder.Free;
   end;
 end;
 
