@@ -1,10 +1,14 @@
 inherited fraMap: TfraMap
+  Width = 932
+  Height = 677
   inherited dxLayoutControl1: TdxLayoutControl
+    Width = 932
+    Height = 574
     object webBrowser: TEdgeBrowser [0]
       Left = 219
       Top = 17
-      Width = 649
-      Height = 150
+      Width = 696
+      Height = 260
       TabOrder = 1
       OnCreateWebViewCompleted = webBrowserCreateWebViewCompleted
       OnNavigationCompleted = webBrowserNavigationCompleted
@@ -12,8 +16,8 @@ inherited fraMap: TfraMap
     end
     object grNotifications: TcxGrid [1]
       Left = 240
-      Top = 226
-      Width = 607
+      Top = 336
+      Width = 654
       Height = 200
       TabOrder = 2
       object gvNotifications: TcxGridTableView
@@ -48,20 +52,19 @@ inherited fraMap: TfraMap
     object memChat: TcxMemo [2]
       Left = 10000
       Top = 10000
-      Lines.Strings = (
-        'memChat')
       Style.HotTrack = False
       Style.TransparentBorder = False
       TabOrder = 3
       Visible = False
       Height = 200
-      Width = 647
+      Width = 607
     end
     object nbMain: TdxNavBar [3]
       Left = 58
       Top = 18
       Width = 150
-      Height = 428
+      Height = 538
+      Align = alLeft
       ActiveGroupIndex = 0
       TabOrder = 0
       View = 21
@@ -83,6 +86,15 @@ inherited fraMap: TfraMap
             Item = nbMainItem2
           end>
       end
+      object nbMainGroup3: TdxNavBarGroup
+        Caption = 'nbMainGroup3'
+        SelectedLinkIndex = -1
+        TopVisibleLinkIndex = 0
+        Visible = False
+        OptionsGroupControl.ShowControl = True
+        OptionsGroupControl.UseControl = True
+        Links = <>
+      end
       object nbMainGroup2: TdxNavBarGroup
         Caption = #1055#1053#1044
         Hint = #1055#1086#1084#1086#1097#1100' '#1085#1072' '#1076#1086#1084#1091
@@ -99,6 +111,16 @@ inherited fraMap: TfraMap
       object nbMainItem2: TdxNavBarItem
         Caption = #1053#1072#1081#1090#1080' '#1085#1072' '#1082#1072#1088#1090#1077
         SmallImageIndex = 4
+      end
+      object nbMainGroup3Control: TdxNavBarGroupControl
+        Left = 0
+        Top = 0
+        Width = 150
+        Height = 538
+        Caption = 'nbMainGroup3Control'
+        TabOrder = 0
+        GroupIndex = 1
+        OriginalHeight = 41
       end
     end
     inherited dxLayoutGroup2: TdxLayoutGroup
@@ -164,9 +186,12 @@ inherited fraMap: TfraMap
     end
   end
   inherited cxGroupBox1: TcxGroupBox
+    Top = 574
+    Width = 932
     inherited dxLayoutControl2: TdxLayoutControl
+      Width = 928
       object btnLoadData: TcxButton [0]
-        Left = 385
+        Left = 409
         Top = 17
         Width = 110
         Height = 65

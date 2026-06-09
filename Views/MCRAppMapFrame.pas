@@ -13,7 +13,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, Vcl.Edge, dxNavBarBase, dxNavBarCollns, dxNavBar,  mcrAppMapClasses,
   mcrMedBrigadeModel, System.Actions, Vcl.ActnList, dxLayoutControlAdapters,
-  Vcl.Menus, Vcl.StdCtrls, cxButtons;
+  Vcl.Menus, Vcl.StdCtrls, cxButtons, dxNavBarGroupItems, Vcl.ExtCtrls;
 
 type
   TfraMap = class(TfraBase)
@@ -44,6 +44,8 @@ type
     asRequestCancel: TAction;
     dxLayoutItem1: TdxLayoutItem;
     btnLoadData: TcxButton;
+    nbMainGroup3: TdxNavBarGroup;
+    nbMainGroup3Control: TdxNavBarGroupControl;
     procedure webBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser;
       AResult: HRESULT);
     procedure webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser;

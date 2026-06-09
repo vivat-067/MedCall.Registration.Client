@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карта нахождения медицинских бригад</title>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=%YANDEX_API_KEY%&lang=ru_RU" type="text/javascript"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        .brigade-balloon {
+            padding: 8px;
+            min-width: 200px;
+        }
+        .brigade-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: #2c3e50;
+            margin-bottom: 6px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 4px;
+        }
+        .brigade-info {
+            font-size: 13px;
+            color: #555;
+            margin: 4px 0;
+        }
+        .brigade-status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            margin-top: 6px;
+        }
+        .status-active { background-color: #2ecc71; }
+        .status-busy { background-color: #e67e22; }
+        .status-offline { background-color: #95a5a6; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    
+    <script>
+        let myMap;
+        let markers = {}; // Хранилище маркеров по ID
+        
+        // Инициализация карты
+        ymaps.ready(initMap);
+        
+        function initMap() {
+            myMap = new ymaps.Map('map', {
+                center: [55.821811, 37.514374], // Сокол / Аэропорт, Москва
+                zoom: 11,
+                controls: ['zoomControl', 'fullscreenControl', 'typeSelector']
+            });
+            
+            console.log('Карта инициализирована');
+        }
+        
+        // Очистка всех маркеров
+        function clearMap() {
+            for (let id in markers) {
+                myMap.geoObjects.remove(markers[id]);
+            }
+            markers = {};
+            console.log('Карта очищена');
+        }
+        
+        // Добавление бригады на карту 
+        function addBrigade(id, lat, lon, label, iconUrl) {
+            if (!myMap) {
+                console.error('Карта не инициализирована');
+                return;
+            }
+            
+            // Удаляем старый маркер, если он уже существует
+            if (markers[id]) {
+                myMap.geoObjects.remove(markers[id]);
+            }
+            
+            // Настраиваем базовые опции маркера
+            let placemarkOptions = {
+                draggable: false
+            };
+
+            // Проверяем, передана ли кастомная картинка
+            if (iconUrl && iconUrl !== '') {
+                placemarkOptions.iconLayout = 'default#image';
+                placemarkOptions.iconImageHref = iconUrl;
+                placemarkOptions.iconImageSize = [32, 32];
+                placemarkOptions.iconImageOffset = [-16, -32]; // Центр по X, низ по Y
+            } else {
+                // Стандартный маркер Яндекса, если картинка не задана
+                placemarkOptions.preset = 'islands#blueMedicalIcon';
+            }
+            
+            // Создаем маркер с динамическими опциями
+            let placemark = new ymaps.Placemark(
+                [lat, lon],
+                {
+                    hintContent: label,
+                    balloonContent: 
+                        '<div class="brigade-balloon">' +
+                        '<div class="brigade-title">🚑 ' + label + '</div>' +
+                        '<div class="brigade-info"><b>ID:</b> ' + id + '</div>' +
+                        '<div class="brigade-info"><b>Координаты:</b> ' + lat.toFixed(4) + ', ' + lon.toFixed(4) + '</div>' +
+                        '<span class="brigade-status status-active">Активна</span>' +
+                        '</div>'
+                },
+                placemarkOptions
+            );
+            
+            // Обработчик клика по маркеру
+            placemark.events.add('click', function(e) {
+                let message = 'BRIGADE_CLICK:' + id;
+                console.log('Клик по маркеру:', message);
+                
+                // Отправляем сообщение в Delphi
+                if (window.chrome && window.chrome.webview) {
+                    window.chrome.webview.postMessage(message);
+                }
+            });
+            
+            // Добавляем маркер на карту и сохраняем в массив
+            myMap.geoObjects.add(placemark);
+            markers[id] = placemark;
+            
+            console.log('Добавлена бригада:', id, label, 'координаты:', lat, lon);
+        }
+        
+        // Обновление позиции маркера
+        function updateBrigadePosition(id, lat, lon) {
+            if (markers[id]) {
+                markers[id].geometry.setCoordinates([lat, lon]);
+                console.log('Обновлена позиция бригады:', id);
+            }
+        }
+        
+        // Удаление конкретного маркера
+        function removeBrigade(id) {
+            if (markers[id]) {
+                myMap.geoObjects.remove(markers[id]);
+                delete markers[id];
+                console.log('Удалена бригада:', id);
+            }
+        }
+        
+        // Центрирование карты на маркере
+        function focusOnBrigade(id) {
+            if (markers[id]) {
+                let coords = markers[id].geometry.getCoordinates();
+                myMap.setCenter(coords, 15);
+                markers[id].balloon.open();
+            }
+        }
+    </script>
+</body>
+</html>
