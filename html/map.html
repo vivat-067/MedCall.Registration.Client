@@ -85,17 +85,17 @@
                 return;
             }
             
-            // Удаляем старый маркер, если он уже существует
+            // Удаление старого маркер, если он уже существует
             if (markers[id]) {
                 myMap.geoObjects.remove(markers[id]);
             }
             
-            // Настраиваем базовые опции маркера
+            // Базовые опции маркера
             let placemarkOptions = {
                 draggable: false
             };
 
-            // Проверяем, передана ли кастомная картинка
+            // Проверка кастомная картинки
             if (iconUrl && iconUrl !== '') {
                 placemarkOptions.iconLayout = 'default#image';
                 placemarkOptions.iconImageHref = iconUrl;
@@ -106,7 +106,7 @@
                 placemarkOptions.preset = 'islands#blueMedicalIcon';
             }
             
-            // Создаем маркер с динамическими опциями
+            // Создание маркера с динамическими опциями
             let placemark = new ymaps.Placemark(
                 [lat, lon],
                 {
@@ -116,7 +116,7 @@
                         '<div class="brigade-title">🚑 ' + label + '</div>' +
                         '<div class="brigade-info"><b>ID:</b> ' + id + '</div>' +
                         '<div class="brigade-info"><b>Координаты:</b> ' + lat.toFixed(4) + ', ' + lon.toFixed(4) + '</div>' +
-                        '<span class="brigade-status status-active">Активна</span>' +
+                        '<span class="brigade-status status-active">Подстанция СМП N24</span>' +
                         '</div>'
                 },
                 placemarkOptions
@@ -127,7 +127,7 @@
                 let message = id;
                 console.log('Клик по маркеру:', message);
                 
-                // Отправляем сообщение в Delphi
+                // Отправка сообщения в клиент Delphi
                 if (window.chrome && window.chrome.webview) {
                     window.chrome.webview.postMessage(message);
                 }

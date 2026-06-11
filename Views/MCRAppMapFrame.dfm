@@ -5,7 +5,7 @@ inherited fraMap: TfraMap
     Width = 932
     Height = 574
     object webBrowser: TEdgeBrowser [0]
-      Left = 219
+      Left = 284
       Top = 17
       Width = 715
       Height = 274
@@ -15,7 +15,7 @@ inherited fraMap: TfraMap
       OnWebMessageReceived = webBrowserWebMessageReceived
     end
     object grNotifications: TcxGrid [1]
-      Left = 827
+      Left = 892
       Top = 340
       Width = 97
       Height = 200
@@ -50,7 +50,7 @@ inherited fraMap: TfraMap
       end
     end
     object memChat: TcxMemo [2]
-      Left = 505
+      Left = 570
       Top = 340
       Style.HotTrack = False
       Style.TransparentBorder = False
@@ -61,46 +61,64 @@ inherited fraMap: TfraMap
     object nbMain: TdxNavBar [3]
       Left = 58
       Top = 18
-      Width = 150
+      Width = 215
       Height = 521
       ActiveGroupIndex = 0
       TabOrder = 0
       View = 21
       ViewStyle.SkinName = 'WXICompact'
       ViewStyle.SkinNameAssigned = True
+      OptionsBehavior.Common.AllowChildGroups = True
+      OptionsBehavior.Common.AllowExpandAnimation = True
+      OptionsBehavior.Common.AllowSelectLinks = True
+      OptionsBehavior.Common.DragDropFlags = []
+      OptionsBehavior.Common.EachGroupHasSelectedLink = True
       OptionsImage.SmallImages = dmResources.ilNavBar24
-      object nbMainGroup1: TdxNavBarGroup
+      object nbgSMP: TdxNavBarGroup
         Caption = #1057#1052#1055
         Hint = #1042#1099#1079#1086#1074' '#1057#1052#1055
         LargeImageIndex = 0
         SelectedLinkIndex = -1
-        SmallImageIndex = 2
+        SmallImageIndex = 16
         TopVisibleLinkIndex = 0
         Links = <
           item
             Item = nbMainItem1
+            Position = 0
           end
           item
             Item = nbMainItem2
+            Position = 1
           end>
+        ParentGroupIndex = -1
+        Position = 0
       end
-      object nbMainGroup3: TdxNavBarGroup
-        Caption = 'nbMainGroup3'
-        SelectedLinkIndex = -1
-        TopVisibleLinkIndex = 0
-        Visible = False
-        OptionsGroupControl.ShowControl = True
-        OptionsGroupControl.UseControl = True
-        Links = <>
-      end
-      object nbMainGroup2: TdxNavBarGroup
+      object nbgPND: TdxNavBarGroup
         Caption = #1055#1053#1044
         Hint = #1055#1086#1084#1086#1097#1100' '#1085#1072' '#1076#1086#1084#1091
         LargeImageIndex = 1
         SelectedLinkIndex = -1
-        SmallImageIndex = 5
+        SmallImageIndex = 2
         TopVisibleLinkIndex = 0
         Links = <>
+        ParentGroupIndex = -1
+        Position = 1
+      end
+      object nbgSettings: TdxNavBarGroup
+        Align = vaBottom
+        Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072
+        SelectedLinkIndex = -1
+        SmallImageIndex = 15
+        TopVisibleLinkIndex = 0
+        OptionsGroupControl.ShowControl = True
+        OptionsGroupControl.UseControl = True
+        Links = <
+          item
+            Item = nbMainItem3
+            Position = 0
+          end>
+        ParentGroupIndex = -1
+        Position = 2
       end
       object nbMainItem1: TdxNavBarItem
         Caption = #1057#1074#1103#1079#1100' '#1089' '#1073#1088#1080#1075#1072#1076#1086#1081
@@ -110,19 +128,34 @@ inherited fraMap: TfraMap
         Caption = #1053#1072#1081#1090#1080' '#1085#1072' '#1082#1072#1088#1090#1077
         SmallImageIndex = 4
       end
-      object nbMainGroup3Control: TdxNavBarGroupControl
-        Left = 0
+      object nbMainItem3: TdxNavBarItem
+        Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
+        SmallImageIndex = 15
+        Visible = False
+        OnClick = nbMainItem3Click
+      end
+      object nbgSettingsControl: TdxNavBarGroupControl
+        Left = 1
         Top = 0
-        Width = 150
-        Height = 521
-        Caption = 'nbMainGroup3Control'
+        Width = 0
+        Height = 0
+        Caption = 'nbgSettingsControl'
         TabOrder = 0
-        GroupIndex = 1
+        GroupIndex = 2
         OriginalHeight = 41
+        object cxGroupBox2: TcxGroupBox
+          Left = 0
+          Top = 0
+          Align = alClient
+          Caption = 'cxGroupBox2'
+          TabOrder = 0
+          Height = 0
+          Width = 0
+        end
       end
     end
     object edBrigadeNumber: TcxTextEdit [4]
-      Left = 305
+      Left = 370
       Top = 348
       AutoSize = False
       Properties.ReadOnly = True
@@ -133,7 +166,7 @@ inherited fraMap: TfraMap
       Width = 180
     end
     object edBrigadeStatus: TcxTextEdit [5]
-      Left = 305
+      Left = 370
       Top = 381
       AutoSize = False
       Properties.ReadOnly = True
@@ -144,7 +177,7 @@ inherited fraMap: TfraMap
       Width = 180
     end
     object edBrigadeDoctor: TcxTextEdit [6]
-      Left = 305
+      Left = 370
       Top = 414
       AutoSize = False
       Properties.ReadOnly = True
@@ -155,7 +188,7 @@ inherited fraMap: TfraMap
       Width = 180
     end
     object edBrigadeParaMedic: TcxTextEdit [7]
-      Left = 305
+      Left = 370
       Top = 447
       AutoSize = False
       Properties.ReadOnly = True
@@ -166,7 +199,7 @@ inherited fraMap: TfraMap
       Width = 180
     end
     object edBrigadeDriver: TcxTextEdit [8]
-      Left = 305
+      Left = 370
       Top = 480
       AutoSize = False
       Properties.ReadOnly = True
@@ -230,7 +263,7 @@ inherited fraMap: TfraMap
       Control = nbMain
       ControlOptions.AutoColor = True
       ControlOptions.OriginalHeight = 300
-      ControlOptions.OriginalWidth = 150
+      ControlOptions.OriginalWidth = 215
       Index = 1
     end
     object dxLayoutGroup1: TdxLayoutGroup

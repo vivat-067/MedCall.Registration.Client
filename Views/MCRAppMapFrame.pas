@@ -13,7 +13,8 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, Vcl.Edge, dxNavBarBase, dxNavBarCollns, dxNavBar,  mcrAppMapClasses,
   mcrMedBrigadeModel, System.Actions, Vcl.ActnList, dxLayoutControlAdapters,
-  Vcl.Menus, Vcl.StdCtrls, cxButtons, dxNavBarGroupItems, Vcl.ExtCtrls;
+  Vcl.Menus, Vcl.StdCtrls, cxButtons, dxNavBarGroupItems, Vcl.ExtCtrls,
+  dxCheckGroupBox;
 
 type
   TfraMap = class(TfraBase)
@@ -26,8 +27,8 @@ type
     liChat: TdxLayoutItem;
     nbMain: TdxNavBar;
     liNavBar: TdxLayoutItem;
-    nbMainGroup1: TdxNavBarGroup;
-    nbMainGroup2: TdxNavBarGroup;
+    nbgSMP: TdxNavBarGroup;
+    nbgPND: TdxNavBarGroup;
     dxLayoutGroup1: TdxLayoutGroup;
     gvNotifications: TcxGridTableView;
     gvNotificationsColumn1: TcxGridColumn;
@@ -44,8 +45,8 @@ type
     asRequestCancel: TAction;
     dxLayoutItem1: TdxLayoutItem;
     btnLoadData: TcxButton;
-    nbMainGroup3: TdxNavBarGroup;
-    nbMainGroup3Control: TdxNavBarGroupControl;
+    nbgSettings: TdxNavBarGroup;
+    nbgSettingsControl: TdxNavBarGroupControl;
     lgBottom: TdxLayoutGroup;
     dxLayoutGroup5: TdxLayoutGroup;
     edBrigadeNumber: TcxTextEdit;
@@ -59,6 +60,8 @@ type
     liBrigadeDriver: TdxLayoutItem;
     edBrigadeDriver: TcxTextEdit;
     dxLayoutSplitterItem1: TdxLayoutSplitterItem;
+    nbMainItem3: TdxNavBarItem;
+    cxGroupBox2: TcxGroupBox;
     procedure webBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser;
       AResult: HRESULT);
     procedure webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser;
@@ -67,6 +70,8 @@ type
       Args: TWebMessageReceivedEventArgs);
     procedure acFileLoadDataExecute(Sender: TObject);
     procedure acFileLoadDataUpdate(Sender: TObject);
+    procedure nbMainItem3Click(Sender: TObject);
+    procedure nbgCallClick(Sender: TObject);
   private
     { Private declarations }
     FisLoaded :boolean;
@@ -106,6 +111,18 @@ begin
    FisLoaded := false;
  end;
 
+
+procedure TfraMap.nbgCallClick(Sender: TObject);
+begin
+  inherited;
+  ShowMessage('Новая заявка');
+end;
+
+procedure TfraMap.nbMainItem3Click(Sender: TObject);
+begin
+  inherited;
+  ShowMessage('Параметры')
+end;
 
 procedure TfraMap.Done;
 begin
