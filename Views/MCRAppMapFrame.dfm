@@ -65,8 +65,9 @@ inherited fraMap: TfraMap
       Height = 521
       ActiveGroupIndex = 0
       TabOrder = 0
+      LookAndFeel.NativeStyle = False
       View = 21
-      ViewStyle.SkinName = 'WXICompact'
+      ViewStyle.SkinName = 'Office2019Colorful'
       ViewStyle.SkinNameAssigned = True
       OptionsBehavior.Common.AllowChildGroups = True
       OptionsBehavior.Common.AllowExpandAnimation = True
@@ -110,14 +111,25 @@ inherited fraMap: TfraMap
         SelectedLinkIndex = -1
         SmallImageIndex = 15
         TopVisibleLinkIndex = 0
-        OptionsGroupControl.ShowControl = True
-        OptionsGroupControl.UseControl = True
         Links = <
           item
-            Item = nbMainItem3
+            Item = nbiOptions
             Position = 0
           end>
         ParentGroupIndex = -1
+        Position = 2
+      end
+      object nbgFilter: TdxNavBarGroup
+        Caption = #1054#1090#1086#1073#1088#1072#1079#1080#1090#1100' '#1085#1072' '#1082#1072#1088#1090#1077
+        SelectedLinkIndex = -1
+        ShowCaption = False
+        SmallImageIndex = 17
+        TopVisibleLinkIndex = 0
+        OptionsGroupControl.ShowControl = True
+        OptionsGroupControl.UseControl = True
+        OptionsExpansion.ShowExpandButton = False
+        Links = <>
+        ParentGroupIndex = 0
         Position = 2
       end
       object nbMainItem1: TdxNavBarItem
@@ -128,29 +140,157 @@ inherited fraMap: TfraMap
         Caption = #1053#1072#1081#1090#1080' '#1085#1072' '#1082#1072#1088#1090#1077
         SmallImageIndex = 4
       end
-      object nbMainItem3: TdxNavBarItem
+      object nbiOptions: TdxNavBarItem
         Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
         SmallImageIndex = 15
         Visible = False
-        OnClick = nbMainItem3Click
+        OnClick = nbiOptionsClick
       end
-      object nbgSettingsControl: TdxNavBarGroupControl
+      object nbgFilterControl: TdxNavBarGroupControl
         Left = 1
-        Top = 0
-        Width = 0
-        Height = 0
-        Caption = 'nbgSettingsControl'
+        Top = 132
+        Width = 213
+        Height = 197
         TabOrder = 0
-        GroupIndex = 2
-        OriginalHeight = 41
-        object cxGroupBox2: TcxGroupBox
+        UseStyle = True
+        GroupIndex = 3
+        OriginalHeight = 197
+        object dxLayoutControl3: TdxLayoutControl
           Left = 0
           Top = 0
+          Width = 213
+          Height = 197
           Align = alClient
-          Caption = 'cxGroupBox2'
+          ParentBackground = True
           TabOrder = 0
-          Height = 0
-          Width = 0
+          Transparent = True
+          object chkNoConnection: TcxCheckBox
+            Tag = 5
+            Left = 17
+            Top = 133
+            Caption = #1041#1077#1079' '#1089#1074#1103#1079#1080
+            Properties.ClearKey = 46
+            Properties.ImmediatePost = True
+            State = cbsChecked
+            Style.HotTrack = False
+            Style.TransparentBorder = False
+            StyleFocused.TextColor = clWindowText
+            TabOrder = 4
+            Transparent = True
+            OnClick = chkStatusFilterClick
+          end
+          object chkWorking: TcxCheckBox
+            Tag = 4
+            Left = 17
+            Top = 104
+            Caption = #1042' '#1088#1072#1073#1086#1090#1077
+            Properties.ClearKey = 46
+            Properties.ImmediatePost = True
+            State = cbsChecked
+            Style.HotTrack = False
+            Style.TransparentBorder = False
+            TabOrder = 3
+            Transparent = True
+            OnClick = chkStatusFilterClick
+          end
+          object chkArrived: TcxCheckBox
+            Tag = 3
+            Left = 17
+            Top = 75
+            Caption = #1055#1088#1080#1073#1099#1083#1072
+            Properties.ClearKey = 46
+            Properties.ImmediatePost = True
+            State = cbsChecked
+            Style.HotTrack = False
+            Style.TransparentBorder = False
+            TabOrder = 2
+            Transparent = True
+            OnClick = chkStatusFilterClick
+          end
+          object chkConfirming: TcxCheckBox
+            Tag = 2
+            Left = 17
+            Top = 46
+            Caption = #1055#1086#1076#1090#1074#1077#1088#1078#1076#1077#1085#1080#1077' '#1074#1099#1079#1086#1074#1072
+            Properties.ClearKey = 46
+            Properties.ImmediatePost = True
+            State = cbsChecked
+            Style.HotTrack = False
+            Style.TransparentBorder = False
+            TabOrder = 1
+            Transparent = True
+            OnClick = chkStatusFilterClick
+          end
+          object chkAvailable: TcxCheckBox
+            Tag = 1
+            Left = 17
+            Top = 17
+            Caption = #1057#1074#1086#1073#1086#1076#1085#1072
+            Properties.ClearKey = 46
+            Properties.ImmediatePost = True
+            State = cbsChecked
+            Style.HotTrack = False
+            Style.TransparentBorder = False
+            TabOrder = 0
+            Transparent = True
+            OnClick = chkStatusFilterClick
+          end
+          object dxLayoutControl3Group_Root: TdxLayoutGroup
+            AlignHorz = ahClient
+            AlignVert = avClient
+            LayoutLookAndFeel = dmResources.dxLayoutCxLookAndFeelNavy
+            Hidden = True
+            ItemIndex = 4
+            ShowBorder = False
+            Index = -1
+          end
+          object dxLayoutItem2: TdxLayoutItem
+            Parent = dxLayoutControl3Group_Root
+            CaptionOptions.Text = #1057#1074#1086#1073#1086#1076#1085#1072
+            CaptionOptions.Visible = False
+            Control = chkNoConnection
+            ControlOptions.OriginalHeight = 19
+            ControlOptions.OriginalWidth = 89
+            ControlOptions.ShowBorder = False
+            Index = 4
+          end
+          object dxLayoutItem4: TdxLayoutItem
+            Parent = dxLayoutControl3Group_Root
+            CaptionOptions.Visible = False
+            Control = chkWorking
+            ControlOptions.OriginalHeight = 19
+            ControlOptions.OriginalWidth = 66
+            ControlOptions.ShowBorder = False
+            Index = 3
+          end
+          object dxLayoutItem5: TdxLayoutItem
+            Parent = dxLayoutControl3Group_Root
+            CaptionOptions.Visible = False
+            Control = chkArrived
+            ControlOptions.OriginalHeight = 19
+            ControlOptions.OriginalWidth = 121
+            ControlOptions.ShowBorder = False
+            Index = 2
+          end
+          object dxLayoutItem6: TdxLayoutItem
+            Parent = dxLayoutControl3Group_Root
+            CaptionOptions.Visible = False
+            Control = chkConfirming
+            ControlOptions.OriginalHeight = 19
+            ControlOptions.OriginalWidth = 121
+            ControlOptions.ShowBorder = False
+            Index = 1
+          end
+          object dxLayoutItem7: TdxLayoutItem
+            Tag = 1
+            Parent = dxLayoutControl3Group_Root
+            CaptionOptions.Visible = False
+            Control = chkAvailable
+            ControlOptions.OriginalHeight = 19
+            ControlOptions.OriginalWidth = 121
+            ControlOptions.ShowBorder = False
+            Index = 0
+          end
         end
       end
     end

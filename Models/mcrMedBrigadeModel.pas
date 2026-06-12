@@ -8,6 +8,7 @@ uses
 
 type
   TBrigadeStatus = (bsAvailable = 1, bsConfirming, bsArrived, bsWorking, bsNoConnection);
+  TBrigadeStatuses = set of TBrigadeStatus;
 
   TMedicalBrigade = class
   private

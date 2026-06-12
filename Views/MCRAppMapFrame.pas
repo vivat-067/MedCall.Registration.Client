@@ -3,18 +3,18 @@
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, MCRAppBaseFrame, cxGraphics,
-  dxUIAClasses, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
-  cxEdit, cxGroupBox, dxLayoutContainer, cxClasses, dxLayoutControl,
-  dxLayoutcxEditAdapters, Winapi.WebView2, Winapi.ActiveX, cxStyles,
-  cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges,
-  dxScrollbarAnnotations, Data.DB, cxDBData, cxTextEdit, cxMemo, cxGridLevel,
-  cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, Vcl.Edge, dxNavBarBase, dxNavBarCollns, dxNavBar,  mcrAppMapClasses,
-  mcrMedBrigadeModel, System.Actions, Vcl.ActnList, dxLayoutControlAdapters,
-  Vcl.Menus, Vcl.StdCtrls, cxButtons, dxNavBarGroupItems, Vcl.ExtCtrls,
-  dxCheckGroupBox;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  MCRAppBaseFrame, cxGraphics, dxUIAClasses, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, cxContainer, cxEdit, cxGroupBox, dxLayoutContainer,
+  cxClasses, dxLayoutControl, dxLayoutcxEditAdapters, Winapi.WebView2,
+  Winapi.ActiveX, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage,
+  cxNavigator, dxDateRanges, dxScrollbarAnnotations, Data.DB, cxDBData,
+  cxTextEdit, cxMemo, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid, Vcl.Edge, dxNavBarBase,
+  dxNavBarCollns, dxNavBar, mcrAppMapClasses, mcrMedBrigadeModel, System.Actions,
+  Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons,
+  dxNavBarGroupItems, Vcl.ExtCtrls, dxCheckGroupBox, cxCheckGroup, cxCheckBox;
 
 type
   TfraMap = class(TfraBase)
@@ -46,7 +46,6 @@ type
     dxLayoutItem1: TdxLayoutItem;
     btnLoadData: TcxButton;
     nbgSettings: TdxNavBarGroup;
-    nbgSettingsControl: TdxNavBarGroupControl;
     lgBottom: TdxLayoutGroup;
     dxLayoutGroup5: TdxLayoutGroup;
     edBrigadeNumber: TcxTextEdit;
@@ -60,23 +59,36 @@ type
     liBrigadeDriver: TdxLayoutItem;
     edBrigadeDriver: TcxTextEdit;
     dxLayoutSplitterItem1: TdxLayoutSplitterItem;
-    nbMainItem3: TdxNavBarItem;
-    cxGroupBox2: TcxGroupBox;
-    procedure webBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser;
-      AResult: HRESULT);
-    procedure webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser;
-      IsSuccess: Boolean; WebErrorStatus: TOleEnum);
-    procedure webBrowserWebMessageReceived(Sender: TCustomEdgeBrowser;
-      Args: TWebMessageReceivedEventArgs);
+    nbiOptions: TdxNavBarItem;
+    nbgFilter: TdxNavBarGroup;
+    nbgFilterControl: TdxNavBarGroupControl;
+    dxLayoutControl3Group_Root: TdxLayoutGroup;
+    dxLayoutControl3: TdxLayoutControl;
+    chkNoConnection: TcxCheckBox;
+    dxLayoutItem2: TdxLayoutItem;
+    dxLayoutItem4: TdxLayoutItem;
+    chkWorking: TcxCheckBox;
+    dxLayoutItem5: TdxLayoutItem;
+    chkArrived: TcxCheckBox;
+    dxLayoutItem6: TdxLayoutItem;
+    chkConfirming: TcxCheckBox;
+    dxLayoutItem7: TdxLayoutItem;
+    chkAvailable: TcxCheckBox;
+    procedure webBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser; AResult: HRESULT);
+    procedure webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser; IsSuccess: Boolean; WebErrorStatus: TOleEnum);
+    procedure webBrowserWebMessageReceived(Sender: TCustomEdgeBrowser; Args: TWebMessageReceivedEventArgs);
     procedure acFileLoadDataExecute(Sender: TObject);
     procedure acFileLoadDataUpdate(Sender: TObject);
-    procedure nbMainItem3Click(Sender: TObject);
-    procedure nbgCallClick(Sender: TObject);
+    procedure nbiOptionsClick(Sender: TObject);
+    procedure chkStatusFilterClick(Sender: TObject);
   private
     { Private declarations }
-    FisLoaded :boolean;
+    FisLoaded: boolean;
     FIsMapInitialized: Boolean;
     FMapController: TMapController;
+    FCurrentBrigadeId: Integer;
+
+    procedure UpdateMarkers;
 
     procedure DoAfterActivate; override;
 
@@ -98,30 +110,18 @@ implementation
 
 {$R *.dfm}
 
- uses
-   mcrResourcesDM, mcrUtils;
+uses
+  mcrResourcesDM, mcrUtils;
 
 { TfraMap }
 
 procedure TfraMap.Init;
 begin
   inherited;
-   FMapController := TMapController.Create(WebMapAPIKey);
-   FIsMapInitialized := False;
-   FisLoaded := false;
- end;
-
-
-procedure TfraMap.nbgCallClick(Sender: TObject);
-begin
-  inherited;
-  ShowMessage('Новая заявка');
-end;
-
-procedure TfraMap.nbMainItem3Click(Sender: TObject);
-begin
-  inherited;
-  ShowMessage('Параметры')
+  FMapController := TMapController.Create(WebMapAPIKey);
+  FIsMapInitialized := False;
+  FisLoaded := false;
+  FCurrentBrigadeId := 0;
 end;
 
 procedure TfraMap.Done;
@@ -130,64 +130,85 @@ begin
   FreeAndNil(FMapController);
 end;
 
-
 procedure TfraMap.acFileLoadDataExecute(Sender: TObject);
 begin
   inherited;
   Reload;
-  FisLoaded:=true;
+  FisLoaded := true;
 end;
 
 procedure TfraMap.acFileLoadDataUpdate(Sender: TObject);
 begin
   inherited;
-    (Sender as TAction).Enabled := FIsMapInitialized and (not FisLoaded);
+  (Sender as TAction).Enabled := FIsMapInitialized and (not FisLoaded);
+end;
+
+procedure TfraMap.nbiOptionsClick(Sender: TObject);
+begin
+  inherited;
+  ShowMessage('Параметры')
+end;
+
+procedure TfraMap.chkStatusFilterClick(Sender: TObject);
+begin
+  var clickedStatus := TBrigadeStatus(TcxCheckBox(Sender).Tag);
+
+  FMapController.ToggleStatusFilter(clickedStatus, TcxCheckBox(Sender).Checked);
+
+  UpdateMarkers;
+
+  if (FCurrentBrigadeId > 0) and (not TcxCheckBox(Sender).Checked) then
+  begin
+    var currentBrigade := FMapController.GetBrigadeById(FCurrentBrigadeId);
+    if Assigned(currentBrigade) and (currentBrigade.Status = clickedStatus) then
+      СlearBrigadeDetails;
+  end;
 end;
 
 procedure TfraMap.DoAfterActivate;
 begin
   inherited;
   if not FIsMapInitialized then
-     webBrowser.ReinitializeWebView;
+    webBrowser.ReinitializeWebView;
 end;
-
 
 procedure TfraMap.RefreshInfo;
 begin
   inherited;
 end;
 
-
-procedure TfraMap.webBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser;
-  AResult: HRESULT);
+procedure TfraMap.webBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser; AResult: HRESULT);
 begin
- if Succeeded(AResult) then
+  if Succeeded(AResult) then
   begin
     FIsMapInitialized := True;
     webBrowser.NavigateToString(FMapController.GetMapHtmlContent);
   end;
 end;
 
-procedure TfraMap.webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser;
-  IsSuccess: Boolean; WebErrorStatus: TOleEnum);
+procedure TfraMap.webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser; IsSuccess: Boolean; WebErrorStatus: TOleEnum);
 begin
   inherited;
    //
 end;
 
-
 procedure TfraMap.Reload;
 begin
-  if FIsMapInitialized and (webBrowser.DefaultInterface <> nil) then begin
-     СlearBrigadeDetails;
-     webBrowser.ExecuteScript(FMapController.GetUpdateMarkersJS);
-  end;
+  if FIsMapInitialized then
+    FMapController.LoadData;
+
+  СlearBrigadeDetails;
+
+  UpdateMarkers;
 end;
 
+procedure TfraMap.UpdateMarkers;
+begin
+  if FIsMapInitialized and (webBrowser.DefaultInterface <> nil) then
+    webBrowser.ExecuteScript(FMapController.GetUpdateMarkersJS);
+end;
 
-
-procedure TfraMap.webBrowserWebMessageReceived(Sender: TCustomEdgeBrowser;
-  Args: TWebMessageReceivedEventArgs);
+procedure TfraMap.webBrowserWebMessageReceived(Sender: TCustomEdgeBrowser; Args: TWebMessageReceivedEventArgs);
 var
   jsonID: PWideChar;
   targetID: Integer;
@@ -210,32 +231,33 @@ begin
   end;
 end;
 
-
 procedure TfraMap.FillBrigadeDetails(ABrigade: TMedicalBrigade);
 begin
   if Assigned(ABrigade) then
   begin
-    edBrigadeNumber.Text := ABrigade.BrigadeNumber;
-    edBrigadeStatus.Text := ABrigade.GetStatus;
-    edBrigadeDoctor.Text := ABrigade.Doctor;
-    edBrigadeParaMedic.Text := ABrigade.Paramedic;
-    edBrigadeDriver.Text := ABrigade.Driver;
-  end else
+    FCurrentBrigadeId := ABrigade.Id;
+     edBrigadeNumber.Text := ABrigade.BrigadeNumber;
+     edBrigadeStatus.Text := ABrigade.GetStatus;
+     edBrigadeDoctor.Text := ABrigade.Doctor;
+     edBrigadeParaMedic.Text := ABrigade.Paramedic;
+     edBrigadeDriver.Text := ABrigade.Driver;
+  end
+  else
     СlearBrigadeDetails;
 end;
 
-
 procedure TfraMap.СlearBrigadeDetails;
 begin
-  edBrigadeNumber.Clear;
-  edBrigadeStatus.Clear;
-  edBrigadeDoctor.Clear;
-  edBrigadeParaMedic.Clear;
-  edBrigadeDriver.Clear;
+  FCurrentBrigadeId := 0;
+   edBrigadeNumber.Clear;
+   edBrigadeStatus.Clear;
+   edBrigadeDoctor.Clear;
+   edBrigadeParaMedic.Clear;
+   edBrigadeDriver.Clear;
 end;
 
 initialization
   RegisterFrame(IDMap, TfraMap);
 
-
 end.
+

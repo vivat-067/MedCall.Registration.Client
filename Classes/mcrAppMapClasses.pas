@@ -15,13 +15,17 @@ type
   private
     FApiKey: string;
     FStatusIcons: TDictionary<TBrigadeStatus, string>;
+    FStatusFilter: TBrigadeStatuses;
     function FileToDataUrl(const AFilePath: string): string;
     function GetIconForStatus(AStatus: TBrigadeStatus): string;
   public
-    constructor Create(const AApiKey: string);
-    destructor Destroy; override;
+    procedure ToggleStatusFilter(AStatus: TBrigadeStatus; AVisible: Boolean);
+
     function GetMapHtmlContent: string;
     function GetUpdateMarkersJS: string;
+
+    constructor Create(const AApiKey: string);
+    destructor Destroy; override;
   end;
 
 implementation
@@ -43,14 +47,22 @@ var
 
 begin
   inherited Create;
+
   FApiKey := AApiKey;
-  FStatusIcons := TDictionary<TBrigadeStatus, string>.Create;
-  basePath := ExtractFilePath(ParamStr(0)) + IconsFolder;
+   FStatusIcons := TDictionary<TBrigadeStatus, string>.Create;
+   basePath := ExtractFilePath(ParamStr(0)) + IconsFolder;
+
+  //Значки маркеров по состояниям
   TryAddIcon(bsAvailable, '01.png');
   TryAddIcon(bsConfirming, '02.png');
   TryAddIcon(bsArrived, '03.png');
   TryAddIcon(bsWorking, '04.png');
   TryAddIcon(bsNoConnection, '05.png');
+
+   FStatusFilter := [];
+   for var status := Low(TBrigadeStatus) to High(TBrigadeStatus) do
+    Include(FStatusFilter, status)
+
 end;
 
 destructor TMapController.Destroy;
@@ -108,12 +120,16 @@ begin
   jsCodeBuilder := TStringBuilder.Create;
   try
     jsCodeBuilder.Append('clearMap(); ');
-    if LoadData then
+
+    if Assigned(BrigadesList) then
     begin
       for brigade in BrigadesList do
       begin
+        if not (brigade.Status in FStatusFilter) then  //Status Filter
+           Continue;
+
         iconUrl := GetIconForStatus(brigade.Status);
-         escapedLabel := Format('Бригада %s | %s (%s)', [brigade.BrigadeNumber, brigade.Doctor, brigade.GetStatus]).Replace('"', '\"', [rfReplaceAll]);
+        escapedLabel := Format('Бригада %s | %s (%s)', [brigade.BrigadeNumber, brigade.Doctor, brigade.GetStatus]).Replace('"', '\"', [rfReplaceAll]);
         jsCodeBuilder.Append(Format('addBrigade("%d", %s, %s, "%s", "%s"); ', [brigade.Id, FloatToStr(brigade.Lat, formatSettings), FloatToStr(brigade.Lon, formatSettings), escapedLabel, iconUrl]));
       end;
     end;
@@ -121,6 +137,14 @@ begin
   finally
     jsCodeBuilder.Free;
   end;
+end;
+
+procedure TMapController.ToggleStatusFilter(AStatus: TBrigadeStatus; AVisible: Boolean);
+begin
+  if AVisible then
+    Include(FStatusFilter, AStatus)
+  else
+    Exclude(FStatusFilter, AStatus);
 end;
 
 end.

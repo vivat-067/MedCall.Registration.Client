@@ -26,7 +26,8 @@ uses
   mcrBrigadesCallsTimeLineTestData in 'TestData\MedBrigades\mcrBrigadesCallsTimeLineTestData.pas',
   mcrAppVersionInfo in 'Helpers\mcrAppVersionInfo.pas',
   MCRAppMapFrame in 'Views\MCRAppMapFrame.pas' {fraMap: TFrame},
-  mcrAppMapClasses in 'Classes\mcrAppMapClasses.pas';
+  mcrAppMapClasses in 'Classes\mcrAppMapClasses.pas',
+  MedCallRegistrationApp.dxSettings in 'MedCallRegistrationApp.dxSettings.pas';
 
 {$R *.res}
 

@@ -480,7 +480,6 @@ object frmMain: TfrmMain
     Width = 1042
   end
   object dxSkinController1: TdxSkinController
-    SkinName = 'HybridApp'
     Left = 872
     Top = 400
   end
