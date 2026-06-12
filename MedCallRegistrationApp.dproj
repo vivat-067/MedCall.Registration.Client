@@ -85,11 +85,11 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Icon_MainIcon>Resources\mcrApp.ico</Icon_MainIcon>
         <VerInfo_MajorVer>2026</VerInfo_MajorVer>
-        <VerInfo_MinorVer>5</VerInfo_MinorVer>
-        <VerInfo_Build>1908</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=vivat;FileDescription=$(MSBuildProjectName);FileVersion=2026.5.601.1908;LegalCopyright=Vit Vatkov;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=2026.5.0.530;Comments=ДЕМО-ВЕРСИЯ ПРОТОТИПА МЕДИЦИНСКОЙ ИС;SpecialBuild=</VerInfo_Keys>
+        <VerInfo_MinorVer>6</VerInfo_MinorVer>
+        <VerInfo_Build>1858</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=vivat;FileDescription=$(MSBuildProjectName);FileVersion=2026.6.612.1858;LegalCopyright=Vit Vatkov;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=2026.5.0.530;Comments=ДЕМО-ВЕРСИЯ ПРОТОТИПА МЕДИЦИНСКОЙ ИС;SpecialBuild=</VerInfo_Keys>
         <VerInfo_Special>true</VerInfo_Special>
-        <VerInfo_Release>601</VerInfo_Release>
+        <VerInfo_Release>612</VerInfo_Release>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>

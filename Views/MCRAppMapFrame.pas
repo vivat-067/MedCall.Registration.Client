@@ -35,8 +35,8 @@ type
     gvNotificationsColumn2: TcxGridColumn;
     gvNotificationsColumn3: TcxGridColumn;
     gvNotificationsColumn4: TcxGridColumn;
-    nbMainItem1: TdxNavBarItem;
-    nbMainItem2: TdxNavBarItem;
+    nbiCommunication: TdxNavBarItem;
+    nbiLocateOnMap: TdxNavBarItem;
     ActionList1: TActionList;
     acFileLoadData: TAction;
     acEdit: TAction;
@@ -74,6 +74,7 @@ type
     chkConfirming: TcxCheckBox;
     dxLayoutItem7: TdxLayoutItem;
     chkAvailable: TcxCheckBox;
+    dxLayoutLabeledItem1: TdxLayoutLabeledItem;
     procedure webBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser; AResult: HRESULT);
     procedure webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser; IsSuccess: Boolean; WebErrorStatus: TOleEnum);
     procedure webBrowserWebMessageReceived(Sender: TCustomEdgeBrowser; Args: TWebMessageReceivedEventArgs);
@@ -81,6 +82,8 @@ type
     procedure acFileLoadDataUpdate(Sender: TObject);
     procedure nbiOptionsClick(Sender: TObject);
     procedure chkStatusFilterClick(Sender: TObject);
+    procedure nbiCommunicationClick(Sender: TObject);
+    procedure nbiLocateOnMapClick(Sender: TObject);
   private
     { Private declarations }
     FisLoaded: boolean;
@@ -88,13 +91,10 @@ type
     FMapController: TMapController;
     FCurrentBrigadeId: Integer;
 
-    procedure UpdateMarkers;
-
     procedure DoAfterActivate; override;
-
-    procedure RefreshInfo; override;
     procedure Reload;
 
+    procedure UpdateMarkers;
     procedure FillBrigadeDetails(ABrigade: TMedicalBrigade);
     procedure СlearBrigadeDetails;
 
@@ -146,7 +146,19 @@ end;
 procedure TfraMap.nbiOptionsClick(Sender: TObject);
 begin
   inherited;
-  ShowMessage('Параметры')
+  ShowMessage('Параметры карты')
+end;
+
+procedure TfraMap.nbiCommunicationClick(Sender: TObject);
+begin
+  inherited;
+  ShowMessage('Связь с бригадой')
+end;
+
+procedure TfraMap.nbiLocateOnMapClick(Sender: TObject);
+begin
+  inherited;
+  ShowMessage('Найти бригаду на карте')
 end;
 
 procedure TfraMap.chkStatusFilterClick(Sender: TObject);
@@ -157,8 +169,7 @@ begin
 
   UpdateMarkers;
 
-  if (FCurrentBrigadeId > 0) and (not TcxCheckBox(Sender).Checked) then
-  begin
+  if (FCurrentBrigadeId > 0) and (not TcxCheckBox(Sender).Checked) then  begin
     var currentBrigade := FMapController.GetBrigadeById(FCurrentBrigadeId);
     if Assigned(currentBrigade) and (currentBrigade.Status = clickedStatus) then
       СlearBrigadeDetails;
@@ -169,13 +180,9 @@ procedure TfraMap.DoAfterActivate;
 begin
   inherited;
   if not FIsMapInitialized then
-    webBrowser.ReinitializeWebView;
+     webBrowser.ReinitializeWebView;
 end;
 
-procedure TfraMap.RefreshInfo;
-begin
-  inherited;
-end;
 
 procedure TfraMap.webBrowserCreateWebViewCompleted(Sender: TCustomEdgeBrowser; AResult: HRESULT);
 begin

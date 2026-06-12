@@ -84,11 +84,11 @@ inherited fraMap: TfraMap
         TopVisibleLinkIndex = 0
         Links = <
           item
-            Item = nbMainItem1
+            Item = nbiCommunication
             Position = 0
           end
           item
-            Item = nbMainItem2
+            Item = nbiLocateOnMap
             Position = 1
           end>
         ParentGroupIndex = -1
@@ -132,13 +132,15 @@ inherited fraMap: TfraMap
         ParentGroupIndex = 0
         Position = 2
       end
-      object nbMainItem1: TdxNavBarItem
+      object nbiCommunication: TdxNavBarItem
         Caption = #1057#1074#1103#1079#1100' '#1089' '#1073#1088#1080#1075#1072#1076#1086#1081
         SmallImageIndex = 0
+        OnClick = nbiCommunicationClick
       end
-      object nbMainItem2: TdxNavBarItem
+      object nbiLocateOnMap: TdxNavBarItem
         Caption = #1053#1072#1081#1090#1080' '#1085#1072' '#1082#1072#1088#1090#1077
         SmallImageIndex = 4
+        OnClick = nbiLocateOnMapClick
       end
       object nbiOptions: TdxNavBarItem
         Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
@@ -161,19 +163,33 @@ inherited fraMap: TfraMap
           Width = 213
           Height = 197
           Align = alClient
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Style = []
           ParentBackground = True
+          ParentFont = False
           TabOrder = 0
           Transparent = True
+          OptionsImage.Images = dmResources.ilNavBar24
           object chkNoConnection: TcxCheckBox
             Tag = 5
             Left = 17
-            Top = 133
+            Top = 167
             Caption = #1041#1077#1079' '#1089#1074#1103#1079#1080
+            ParentFont = False
             Properties.ClearKey = 46
             Properties.ImmediatePost = True
             State = cbsChecked
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindow
+            Style.Font.Height = -12
+            Style.Font.Name = 'Segoe UI'
+            Style.Font.Style = []
             Style.HotTrack = False
             Style.TransparentBorder = False
+            Style.IsFontAssigned = True
             StyleFocused.TextColor = clWindowText
             TabOrder = 4
             Transparent = True
@@ -182,13 +198,20 @@ inherited fraMap: TfraMap
           object chkWorking: TcxCheckBox
             Tag = 4
             Left = 17
-            Top = 104
+            Top = 138
             Caption = #1042' '#1088#1072#1073#1086#1090#1077
+            ParentFont = False
             Properties.ClearKey = 46
             Properties.ImmediatePost = True
             State = cbsChecked
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindow
+            Style.Font.Height = -12
+            Style.Font.Name = 'Segoe UI'
+            Style.Font.Style = []
             Style.HotTrack = False
             Style.TransparentBorder = False
+            Style.IsFontAssigned = True
             TabOrder = 3
             Transparent = True
             OnClick = chkStatusFilterClick
@@ -196,13 +219,20 @@ inherited fraMap: TfraMap
           object chkArrived: TcxCheckBox
             Tag = 3
             Left = 17
-            Top = 75
+            Top = 109
             Caption = #1055#1088#1080#1073#1099#1083#1072
+            ParentFont = False
             Properties.ClearKey = 46
             Properties.ImmediatePost = True
             State = cbsChecked
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindow
+            Style.Font.Height = -12
+            Style.Font.Name = 'Segoe UI'
+            Style.Font.Style = []
             Style.HotTrack = False
             Style.TransparentBorder = False
+            Style.IsFontAssigned = True
             TabOrder = 2
             Transparent = True
             OnClick = chkStatusFilterClick
@@ -210,13 +240,21 @@ inherited fraMap: TfraMap
           object chkConfirming: TcxCheckBox
             Tag = 2
             Left = 17
-            Top = 46
+            Top = 80
             Caption = #1055#1086#1076#1090#1074#1077#1088#1078#1076#1077#1085#1080#1077' '#1074#1099#1079#1086#1074#1072
+            ParentFont = False
             Properties.ClearKey = 46
             Properties.ImmediatePost = True
             State = cbsChecked
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindow
+            Style.Font.Height = -12
+            Style.Font.Name = 'Segoe UI'
+            Style.Font.Style = []
             Style.HotTrack = False
             Style.TransparentBorder = False
+            Style.IsFontAssigned = True
+            StyleFocused.TextColor = clWindow
             TabOrder = 1
             Transparent = True
             OnClick = chkStatusFilterClick
@@ -224,13 +262,21 @@ inherited fraMap: TfraMap
           object chkAvailable: TcxCheckBox
             Tag = 1
             Left = 17
-            Top = 17
+            Top = 51
             Caption = #1057#1074#1086#1073#1086#1076#1085#1072
+            ParentFont = False
             Properties.ClearKey = 46
             Properties.ImmediatePost = True
             State = cbsChecked
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindow
+            Style.Font.Height = -12
+            Style.Font.Name = 'Segoe UI'
+            Style.Font.Style = []
             Style.HotTrack = False
             Style.TransparentBorder = False
+            Style.IsFontAssigned = True
+            StyleFocused.TextColor = clWindowText
             TabOrder = 0
             Transparent = True
             OnClick = chkStatusFilterClick
@@ -240,7 +286,6 @@ inherited fraMap: TfraMap
             AlignVert = avClient
             LayoutLookAndFeel = dmResources.dxLayoutCxLookAndFeelNavy
             Hidden = True
-            ItemIndex = 4
             ShowBorder = False
             Index = -1
           end
@@ -252,7 +297,7 @@ inherited fraMap: TfraMap
             ControlOptions.OriginalHeight = 19
             ControlOptions.OriginalWidth = 89
             ControlOptions.ShowBorder = False
-            Index = 4
+            Index = 5
           end
           object dxLayoutItem4: TdxLayoutItem
             Parent = dxLayoutControl3Group_Root
@@ -261,7 +306,7 @@ inherited fraMap: TfraMap
             ControlOptions.OriginalHeight = 19
             ControlOptions.OriginalWidth = 66
             ControlOptions.ShowBorder = False
-            Index = 3
+            Index = 4
           end
           object dxLayoutItem5: TdxLayoutItem
             Parent = dxLayoutControl3Group_Root
@@ -270,7 +315,7 @@ inherited fraMap: TfraMap
             ControlOptions.OriginalHeight = 19
             ControlOptions.OriginalWidth = 121
             ControlOptions.ShowBorder = False
-            Index = 2
+            Index = 3
           end
           object dxLayoutItem6: TdxLayoutItem
             Parent = dxLayoutControl3Group_Root
@@ -279,7 +324,7 @@ inherited fraMap: TfraMap
             ControlOptions.OriginalHeight = 19
             ControlOptions.OriginalWidth = 121
             ControlOptions.ShowBorder = False
-            Index = 1
+            Index = 2
           end
           object dxLayoutItem7: TdxLayoutItem
             Tag = 1
@@ -289,6 +334,33 @@ inherited fraMap: TfraMap
             ControlOptions.OriginalHeight = 19
             ControlOptions.OriginalWidth = 121
             ControlOptions.ShowBorder = False
+            Index = 1
+          end
+          object dxLayoutLabeledItem1: TdxLayoutLabeledItem
+            Parent = dxLayoutControl3Group_Root
+            CaptionOptions.Glyph.SourceDPI = 96
+            CaptionOptions.Glyph.SourceHeight = 24
+            CaptionOptions.Glyph.SourceWidth = 24
+            CaptionOptions.Glyph.Data = {
+              3C3F786D6C2076657273696F6E3D22312E302220656E636F64696E673D225554
+              462D38223F3E0D0A3C7376672076657273696F6E3D22312E31222069643D224C
+              61796572312220786D6C6E733D22687474703A2F2F7777772E77332E6F72672F
+              323030302F7376672220786D6C6E733A786C696E6B3D22687474703A2F2F7777
+              772E77332E6F72672F313939392F786C696E6B2220783D223070782220793D22
+              307078222076696577426F783D2230203020333220333222207374796C653D22
+              656E61626C652D6261636B67726F756E643A6E6577203020302033322033323B
+              2220786D6C3A73706163653D227072657365727665223E262331333B26233130
+              3B20203C7374796C6520747970653D22746578742F6373732220786D6C3A7370
+              6163653D227072657365727665223E2E5768697465262331333B262331303B20
+              2020207B262331333B262331303B20202020202066696C6C3A23464646464646
+              3B262331333B262331303B202020202020666F6E742D66616D696C793A266170
+              6F733B64782D666F6E742D69636F6E732661706F733B3B262331333B26233130
+              3B202020202020666F6E742D73697A653A333270783B262331333B262331303B
+              202020207D262331333B262331303B20203C2F7374796C653E0D0A3C74657874
+              20783D22302220793D2233322220636C6173733D225768697465223EEE9C9C3C
+              2F746578743E0D0A3C2F7376673E0D0A}
+            CaptionOptions.Text = #1057#1090#1072#1090#1091#1089
+            CaptionOptions.VisibleElements = [cveImage]
             Index = 0
           end
         end
