@@ -125,12 +125,17 @@ begin
     begin
       for brigade in BrigadesList do
       begin
-        if not (brigade.Status in FStatusFilter) then  //Status Filter
+        if not (brigade.Status in FStatusFilter) then  //Filter by Status
            Continue;
 
         iconUrl := GetIconForStatus(brigade.Status);
         escapedLabel := Format('Бригада %s | %s (%s)', [brigade.BrigadeNumber, brigade.Doctor, brigade.GetStatus]).Replace('"', '\"', [rfReplaceAll]);
-        jsCodeBuilder.Append(Format('addBrigade("%d", %s, %s, "%s", "%s"); ', [brigade.Id, FloatToStr(brigade.Lat, formatSettings), FloatToStr(brigade.Lon, formatSettings), escapedLabel, iconUrl]));
+        jsCodeBuilder.Append(Format('addBrigade("%d", %s, %s, "%s", "%s"); ',
+                            [brigade.Id,
+                             FloatToStr(brigade.Lat, formatSettings),
+                             FloatToStr(brigade.Lon, formatSettings),
+                             escapedLabel,
+                             iconUrl]));
       end;
     end;
     Result := jsCodeBuilder.ToString;

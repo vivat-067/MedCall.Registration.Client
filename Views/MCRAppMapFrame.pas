@@ -212,7 +212,7 @@ end;
 procedure TfraMap.UpdateMarkers;
 begin
   if FIsMapInitialized and (webBrowser.DefaultInterface <> nil) then
-    webBrowser.ExecuteScript(FMapController.GetUpdateMarkersJS);
+     webBrowser.ExecuteScript(FMapController.GetUpdateMarkersJS);
 end;
 
 procedure TfraMap.webBrowserWebMessageReceived(Sender: TCustomEdgeBrowser; Args: TWebMessageReceivedEventArgs);
