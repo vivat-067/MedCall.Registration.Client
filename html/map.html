@@ -126,7 +126,8 @@
             
             // Обработчик клика по маркеру
             placemark.events.add('click', function(e) {
-                let message = id;
+                //let message = "brigade:" + id        //TO-DO     
+                let message = id                
                 console.log('Клик по маркеру:', message);
                 
                 // Отправка сообщения в клиент Delphi
@@ -228,8 +229,8 @@
             );
             
             // Обработчик клика по маркеру
-            placemark.events.add('click', function(e) {
-                let message = id;
+            placemark.events.add('click', function(e) {                
+                let message = "station:" + id
                 console.log('Клик по маркеру станции:', message);
                 
                 // Отправка сообщения в клиент Delphi

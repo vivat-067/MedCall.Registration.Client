@@ -94,6 +94,7 @@ type
     procedure DoAfterActivate; override;
     procedure Reload;
 
+    procedure UpdateStationMarkers;
     procedure UpdateBrigadeMarkers;
     procedure FillBrigadeDetails(ABrigade: TMedicalBrigade);
     procedure СlearBrigadeDetails;
@@ -189,16 +190,14 @@ begin
   if Succeeded(AResult) then
   begin
     FIsMapInitialized := True;
-    webBrowser.NavigateToString(FMapController.GetMapHtmlContent);
-
+     webBrowser.NavigateToString(FMapController.GetMapHtmlContent);
   end;
 end;
 
 procedure TfraMap.webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser; IsSuccess: Boolean; WebErrorStatus: TOleEnum);
 begin
   inherited;
-  if IsSuccess and (webBrowser.DefaultInterface <> nil) then
-    webBrowser.ExecuteScript(FMapController.GetUpdateStationMarkersJS);
+ // UpdateStationMarkers; //to do check
 end;
 
 procedure TfraMap.Reload;
@@ -208,12 +207,20 @@ begin
 
    СlearBrigadeDetails;
    UpdateBrigadeMarkers;
+
+   UpdateStationMarkers; //to do check webBrowserNavigationCompleted data missing without breakpoint set
 end;
 
 procedure TfraMap.UpdateBrigadeMarkers;
 begin
   if FIsMapInitialized and (webBrowser.DefaultInterface <> nil) then
      webBrowser.ExecuteScript(FMapController.GetUpdateBrigadeMarkersJS);
+end;
+
+procedure TfraMap.UpdateStationMarkers;
+begin
+  if FIsMapInitialized and (webBrowser.DefaultInterface <> nil) then
+     webBrowser.ExecuteScript(FMapController.GetUpdateStationMarkersJS);
 end;
 
 procedure TfraMap.webBrowserWebMessageReceived(Sender: TCustomEdgeBrowser; Args: TWebMessageReceivedEventArgs);
@@ -225,7 +232,7 @@ begin
   inherited;
   if Succeeded(Args.ArgsInterface.Get_webMessageAsJson(jsonID)) then
   try
-    targetID := StrToIntDef(string(jsonID).DeQuotedString('"'), 0);
+    targetID := StrToIntDef(string(jsonID).DeQuotedString('"'), -1);
     brigade := FMapController.GetBrigadeById(targetID);
     if Assigned(brigade) then
     begin
