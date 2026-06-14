@@ -3,7 +3,7 @@
 interface
 
 uses
-  System.SysUtils, System.IOUtils, System.Classes, System.NetEncoding,
+  System.SysUtils, System.IOUtils, System.Classes,
   System.Generics.Collections, mcrMedBrigadeModel, mcrAppMedBrigadesLogClasses;
 
 const
@@ -16,13 +16,14 @@ type
     FApiKey: string;
     FStatusIcons: TDictionary<TBrigadeStatus, string>;
     FStatusFilter: TBrigadeStatuses;
-    function FileToDataUrl(const AFilePath: string): string;
     function GetIconForStatus(AStatus: TBrigadeStatus): string;
+
   public
     procedure ToggleStatusFilter(AStatus: TBrigadeStatus; AVisible: Boolean);
 
     function GetMapHtmlContent: string;
-    function GetUpdateMarkersJS: string;
+    function GetUpdateBrigadeMarkersJS: string;
+    function GetUpdateStationMarkersJS: string;
 
     constructor Create(const AApiKey: string);
     destructor Destroy; override;
@@ -31,6 +32,10 @@ type
 implementation
 
 { TMapController }
+
+uses
+  mcrUtils;
+
 
 constructor TMapController.Create(const AApiKey: string);
 var
@@ -71,25 +76,6 @@ begin
   inherited;
 end;
 
-function TMapController.FileToDataUrl(const AFilePath: string): string;
-var
-  stream: TMemoryStream;
-  bytes: TBytes;
-begin
-  Result := '';
-  if not FileExists(AFilePath) then
-    Exit;
-  stream := TMemoryStream.Create;
-  try
-    stream.LoadFromFile(AFilePath);
-    SetLength(bytes, stream.Size);
-    stream.Position := 0;
-    stream.ReadBuffer(bytes, stream.Size);
-    Result := 'data:image/png;base64,' + TNetEncoding.Base64.EncodeBytesToString(bytes).Replace(#13, '', [rfReplaceAll]).Replace(#10, '', [rfReplaceAll]);
-  finally
-    stream.Free;
-  end;
-end;
 
 function TMapController.GetIconForStatus(AStatus: TBrigadeStatus): string;
 begin
@@ -108,7 +94,7 @@ begin
     Result := '<html><body><h3>Ошибка МИС</h3>Шаблон карты не найден: ' + mapPath + '</body></html>';
 end;
 
-function TMapController.GetUpdateMarkersJS: string;
+function TMapController.GetUpdateBrigadeMarkersJS: string;
 var
   formatSettings: TFormatSettings;
   brigade: TMedicalBrigade;
@@ -119,7 +105,7 @@ begin
   formatSettings := TFormatSettings.Create('en-US');
   jsCodeBuilder := TStringBuilder.Create;
   try
-    jsCodeBuilder.Append('clearMap(); ');
+    jsCodeBuilder.Append('clearBrigades();');
 
     if Assigned(BrigadesList) then
     begin
@@ -144,6 +130,33 @@ begin
   end;
 end;
 
+function TMapController.GetUpdateStationMarkersJS: string;
+var
+  formatSettings: TFormatSettings;
+  jsCodeBuilder: TStringBuilder;
+  escapedLabel: string;
+  stationIconUrl: string;
+begin
+  formatSettings := TFormatSettings.Create('en-US');
+  jsCodeBuilder := TStringBuilder.Create;
+  try
+    jsCodeBuilder.Append('clearStations(); ');
+    escapedLabel := 'Подстанция СМП №24'.Replace('"', '\"', [rfReplaceAll]);
+
+    jsCodeBuilder.Append(Format('addStation(%d, %s, %s, "%s", "%s"); ',
+      [
+        1,                                            // ID станции
+        FloatToStr(55.7900, formatSettings),          // Широта
+        FloatToStr(37.5200, formatSettings),          // Долгота
+        escapedLabel,                                 // Название
+        stationIconUrl                                // Иконка (data:URL)
+      ]));
+
+    Result := jsCodeBuilder.ToString;
+  finally
+    jsCodeBuilder.Free;
+  end;
+end;
 procedure TMapController.ToggleStatusFilter(AStatus: TBrigadeStatus; AVisible: Boolean);
 begin
   if AVisible then
