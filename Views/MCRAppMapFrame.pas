@@ -94,7 +94,7 @@ type
     procedure DoAfterActivate; override;
     procedure Reload;
 
-    procedure UpdateMarkers;
+    procedure UpdateBrigadeMarkers;
     procedure FillBrigadeDetails(ABrigade: TMedicalBrigade);
     procedure СlearBrigadeDetails;
 
@@ -167,7 +167,7 @@ begin
 
   FMapController.ToggleStatusFilter(clickedStatus, TcxCheckBox(Sender).Checked);
 
-  UpdateMarkers;
+  UpdateBrigadeMarkers;
 
   if (FCurrentBrigadeId > 0) and (not TcxCheckBox(Sender).Checked) then  begin
     var currentBrigade := FMapController.GetBrigadeById(FCurrentBrigadeId);
@@ -197,7 +197,8 @@ end;
 procedure TfraMap.webBrowserNavigationCompleted(Sender: TCustomEdgeBrowser; IsSuccess: Boolean; WebErrorStatus: TOleEnum);
 begin
   inherited;
-   //
+  if IsSuccess and (webBrowser.DefaultInterface <> nil) then
+    webBrowser.ExecuteScript(FMapController.GetUpdateStationMarkersJS);
 end;
 
 procedure TfraMap.Reload;
@@ -205,12 +206,11 @@ begin
   if FIsMapInitialized then
     FMapController.LoadData;
 
-  СlearBrigadeDetails;
-
-  UpdateMarkers;
+   СlearBrigadeDetails;
+   UpdateBrigadeMarkers;
 end;
 
-procedure TfraMap.UpdateMarkers;
+procedure TfraMap.UpdateBrigadeMarkers;
 begin
   if FIsMapInitialized and (webBrowser.DefaultInterface <> nil) then
      webBrowser.ExecuteScript(FMapController.GetUpdateBrigadeMarkersJS);

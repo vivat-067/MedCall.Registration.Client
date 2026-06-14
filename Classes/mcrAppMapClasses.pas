@@ -16,6 +16,7 @@ type
     FApiKey: string;
     FStatusIcons: TDictionary<TBrigadeStatus, string>;
     FStatusFilter: TBrigadeStatuses;
+    FBasePath:string;
     function GetIconForStatus(AStatus: TBrigadeStatus): string;
 
   public
@@ -38,14 +39,12 @@ uses
 
 
 constructor TMapController.Create(const AApiKey: string);
-var
-  basePath: string;
 
   procedure TryAddIcon(AStatus: TBrigadeStatus; const AFileName: string);
   var
     dataUrl: string;
   begin
-    dataUrl := FileToDataUrl(basePath + AFileName);
+    dataUrl := FileToDataUrl(FBasePath + AFileName);
     if dataUrl <> '' then
       FStatusIcons.Add(AStatus, dataUrl);
   end;
@@ -54,8 +53,9 @@ begin
   inherited Create;
 
   FApiKey := AApiKey;
-   FStatusIcons := TDictionary<TBrigadeStatus, string>.Create;
-   basePath := ExtractFilePath(ParamStr(0)) + IconsFolder;
+   FBasePath := ExtractFilePath(ParamStr(0)) + IconsFolder;
+
+  FStatusIcons := TDictionary<TBrigadeStatus, string>.Create;
 
   //Значки маркеров по состояниям
   TryAddIcon(bsAvailable, '01.png');
@@ -142,6 +142,7 @@ begin
   try
     jsCodeBuilder.Append('clearStations(); ');
     escapedLabel := 'Подстанция СМП №24'.Replace('"', '\"', [rfReplaceAll]);
+    stationIconUrl := FileToDataUrl(FBasePath + 'station.png');
 
     jsCodeBuilder.Append(Format('addStation(%d, %s, %s, "%s", "%s"); ',
       [
